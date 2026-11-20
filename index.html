@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vocabulary Game: Toys</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--sky1:#6cc8ff;--sky2:#e8f8ff;--card:#fff;--ink:#2b2d5b;--muted:#6b6f9c;--pri:#ff7a45;--sh:rgba(40,50,120,.2);--h1:#8fe28a;--h2:#5fcf6f;--tile:#fff3d6;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sky1:#141a4a;--sky2:#2f3787;--card:#2a2f6b;--ink:#fff;--muted:#b9bdf0;--sh:rgba(0,0,0,.4);--h1:#2c7a52;--h2:#226443;--tile:#3a4090;color-scheme:dark}}
+:root[data-theme="dark"]{--sky1:#141a4a;--sky2:#2f3787;--card:#2a2f6b;--ink:#fff;--muted:#b9bdf0;--sh:rgba(0,0,0,.4);--h1:#2c7a52;--h2:#226443;--tile:#3a4090;color-scheme:dark}
+html,body{height:100%;margin:0}
+body{background:linear-gradient(var(--sky1),var(--sky2));font-family:"Baloo 2","Comic Sans MS",system-ui,sans-serif;color:var(--ink);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.sun{position:fixed;top:4%;right:6%;font-size:70px;animation:spin 60s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cloud{position:fixed;font-size:64px;opacity:.85;animation:drift 45s linear infinite;pointer-events:none}
+@keyframes drift{from{transform:translateX(-120px)}to{transform:translateX(110vw)}}
+.hills{position:fixed;left:0;bottom:0;width:100%;height:20vh;pointer-events:none}
+#app{position:relative;z-index:2;max-width:580px;margin:0 auto;min-height:100%;padding:16px 16px 22vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+.screen{display:none}.screen.on{display:block;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.card{background:var(--card);border-radius:32px;box-shadow:0 10px 0 var(--sh),0 20px 40px var(--sh);padding:20px;text-align:center;border:4px solid rgba(255,255,255,.6)}
+h1{margin:0;font-size:2.6rem;line-height:1;font-weight:800}
+h1 small{display:block;font-size:1rem;letter-spacing:.2em;color:var(--muted);margin-bottom:4px}
+h1 i{font-style:normal;display:inline-block;text-shadow:0 4px 0 rgba(0,0,0,.15);animation:bob 1.8s ease-in-out infinite}
+p{margin:8px 0;color:var(--muted);font-weight:500}
+.row{font-size:3.4rem;display:flex;justify-content:center;gap:10px;margin:14px 0}
+.row span{animation:bob 1.6s ease-in-out infinite}.row span:nth-child(2){animation-delay:.2s}.row span:nth-child(3){animation-delay:.4s}.row span:nth-child(4){animation-delay:.6s}
+@keyframes bob{50%{transform:translateY(-12px) rotate(-5deg)}}
+input{font:inherit;font-size:1.3rem;font-weight:700;text-align:center;padding:10px;border-radius:20px;border:3px solid #ffd9c7;background:var(--card);color:var(--ink);width:80%;max-width:300px;margin:8px 0}
+.btn{font:inherit;font-weight:800;font-size:1.4rem;border:0;border-radius:24px;padding:12px 28px;color:#fff;background:linear-gradient(#ffa24a,#ff6a3d);box-shadow:0 6px 0 #c4472a,inset 0 3px 0 rgba(255,255,255,.4);cursor:pointer;transition:transform .1s,box-shadow .1s;margin:6px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #c4472a}
+.top{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.track{flex:1;height:18px;border-radius:99px;background:rgba(255,255,255,.6);position:relative;box-shadow:inset 0 3px 0 rgba(0,0,0,.08)}
+.fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ffd93d,#ff6a3d);transition:width .6s}
+.mover{position:absolute;top:-17px;left:0;font-size:32px;transition:left .6s;transform:translateX(-30%)}
+.flag{position:absolute;right:-6px;top:-20px;font-size:28px}
+.pill{background:var(--card);border-radius:99px;padding:2px 12px;font-weight:800;box-shadow:0 4px 0 var(--sh);white-space:nowrap}
+.mute{background:var(--card);border:0;border-radius:50%;width:42px;height:42px;font-size:20px;box-shadow:0 4px 0 var(--sh);cursor:pointer}
+.round{font-weight:800;color:var(--muted);letter-spacing:.05em}
+.pic{width:170px;height:170px;margin:8px auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6.5rem;cursor:pointer;user-select:none;background:radial-gradient(circle at 35% 30%,#fff,var(--b));box-shadow:0 8px 0 var(--sh);animation:bob 2.2s ease-in-out infinite}
+.hint{color:var(--muted);font-weight:700;margin:4px 0 12px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opts button{font:inherit;font-weight:800;font-size:1.7rem;color:#fff;border:0;border-radius:24px;padding:14px 8px;background:linear-gradient(rgba(255,255,255,.3),rgba(0,0,0,.08)),var(--b);box-shadow:0 6px 0 rgba(0,0,0,.25);cursor:pointer;transition:transform .1s}
+.opts button.pc{background:var(--card);box-shadow:0 6px 0 var(--sh);font-size:4rem;line-height:1.1}
+.opts button:active{transform:translateY(4px)}
+.opts button.yn{font-size:1.25rem}
+.q{font-size:1.9rem;font-weight:800;margin:6px 0 12px}
+.speak{width:110px;height:110px;border-radius:50%;font-size:3rem;padding:0;animation:pulse 1.5s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.good{outline:6px solid #2fbf71;animation:hop .5s}
+@keyframes hop{40%{transform:translateY(-14px) scale(1.06)}}
+.shake{animation:shake .4s}.dim{opacity:.4;pointer-events:none}
+@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+#msg{min-height:2.4rem;margin-top:14px;font-size:1.35rem;font-weight:800}
+.slots,.tiles{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.slot{width:48px;height:56px;border-radius:14px;border:3px dashed var(--muted);font-size:2rem;font-weight:800;line-height:52px;color:var(--pri)}
+.slot.f{border:3px solid #2fbf71;background:#e4ffe9;color:#1e8a4c;animation:pop .3s}
+.tile{font:inherit;font-weight:800;font-size:2rem;width:58px;height:62px;border:0;border-radius:16px;background:var(--tile);color:var(--ink);box-shadow:0 5px 0 var(--sh);cursor:pointer;text-transform:lowercase}
+.tile:active{transform:translateY(4px)}.tile.used{visibility:hidden}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.mc{font:inherit;font-weight:800;aspect-ratio:1;border:0;border-radius:18px;font-size:1.1rem;background:linear-gradient(135deg,#ffa24a,#ff5a8a);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer;padding:0}
+.mc.up{background:var(--card);color:var(--ink);font-size:2.3rem;animation:pop .3s}.mc.ok{background:#d9ffe3;color:#1e8a4c}.mc.up.w{font-size:1.2rem}
+.lg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.lc{border-radius:24px;padding:10px 4px;cursor:pointer;font-weight:800;font-size:1.5rem;color:#fff;background:linear-gradient(rgba(255,255,255,.3),rgba(0,0,0,.08)),var(--b);box-shadow:0 6px 0 rgba(0,0,0,.22)}
+.lc span{display:block;font-size:3.6rem;animation:bob 2s ease-in-out infinite}.lc:active{transform:translateY(4px)}
+.stars{font-size:3.4rem;letter-spacing:6px}.stars b{display:inline-block;animation:pop .5s backwards}
+.conf{position:fixed;top:-20px;width:12px;height:12px;border-radius:3px;animation:fall 1.6s ease-in forwards;z-index:9;pointer-events:none}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.2}}
+</style></head>
+<body>
+<div class="sun">☀️</div><div class="cloud" style="top:8%;animation-delay:-5s">☁️</div><div class="cloud" style="top:40%;animation-delay:-24s;font-size:46px">☁️</div>
+<svg class="hills" viewBox="0 0 800 160" preserveAspectRatio="none"><path d="M0 70Q150 0 300 60T600 50T800 70V160H0Z" fill="var(--h1)"/><path d="M0 110Q200 40 400 100T800 90V160H0Z" fill="var(--h2)"/></svg>
+<div id="app">
+<section class="screen on" id="start"><div class="card">
+<h1><small>VOCABULARY GAME</small><i style="color:#ff5a5f">T</i><i style="color:#2f9bf0;animation-delay:.15s">O</i><i style="color:#27ae60;animation-delay:.3s">Y</i><i style="color:#9b59e6;animation-delay:.45s">S</i></h1>
+<div class="row"><span>🚗</span><span>✈️</span><span>🚂</span><span>🤖</span></div>
+<p>Learn, listen, spell and play!</p>
+<input id="nm" maxlength="14" placeholder="Your name" autocomplete="off">
+<div><button class="btn" id="go">▶ PLAY</button></div>
+<p style="font-size:.9rem">🔊 Turn on your sound</p>
+</div></section>
+<section class="screen" id="learn"><div class="card">
+<h1 style="font-size:2rem;color:var(--pri)">Meet the toys!</h1>
+<p>Tap each toy and listen 👂</p>
+<div class="lg" id="lg"></div>
+<button class="btn" id="go2">Let’s play! ➜</button>
+</div></section>
+<section class="screen" id="game">
+<div class="top"><div class="track"><div class="fill" id="fill"></div><div class="mover" id="mv">🚗</div><div class="flag">🏁</div></div><div class="pill" id="cnt"></div><div class="pill" id="combo"></div><button class="mute" id="mute">🔊</button></div>
+<div class="card"><div class="round" id="rd"></div><div id="qb"></div><div id="msg"></div></div>
+</section>
+<section class="screen" id="end"><div class="card">
+<h1 id="ttl" style="font-size:2rem;color:var(--pri)"></h1>
+<div class="stars" id="st"></div>
+<p id="sc" style="font-size:1.4rem;font-weight:800;color:var(--ink)"></p>
+<p>Tap to listen again 👇</p>
+<div class="lg" id="rv"></div>
+<button class="btn" id="again">↻ PLAY AGAIN</button>
+</div></section>
+</div>
+<script>
+const T=[{w:"car",e:"🚗",c:"#ff5a5f"},{w:"plane",e:"✈️",c:"#2f9bf0"},{w:"train",e:"🚂",c:"#27ae60"},{w:"robot",e:"🤖",c:"#9b59e6"}];
+const $=s=>document.querySelector(s);
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let name="",qi=0,score=0,qs=[],lock=false,muted=false,ctx=null,timer=null,streak=0,tok=0,sp=null,voice=null,keep=[],pos=0,mem=null;
+const hasSp="speechSynthesis" in window;
+function pick(){if(!hasSp)return;const v=speechSynthesis.getVoices();voice=v.find(x=>/en[-_]US/i.test(x.lang)&&/female|samantha|google|zira|aria/i.test(x.name))||v.find(x=>/^en/i.test(x.lang))||null}
+if(hasSp){pick();speechSynthesis.onvoiceschanged=pick}
+function say(t,cb,delay=0){
+const k=++tok;clearTimeout(sp);
+if(muted||!hasSp){if(cb)sp=setTimeout(()=>k===tok&&cb(),1500);return}
+try{speechSynthesis.cancel()}catch(e){}
+sp=setTimeout(()=>{
+const u=new SpeechSynthesisUtterance(t);u.lang="en-US";if(voice)u.voice=voice;u.rate=.8;u.pitch=1.1;
+keep.push(u);let d=false;
+const f=()=>{if(d)return;d=true;keep=keep.filter(x=>x!==u);if(cb&&k===tok)setTimeout(()=>k===tok&&cb(),600)};
+u.onend=f;u.onerror=f;
+try{speechSynthesis.resume();speechSynthesis.speak(u)}catch(e){f()}
+setTimeout(f,8000);
+},180+delay)}
+function tone(f,d,t=0,ty="triangle"){if(muted)return;try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();if(ctx.state=="suspended")ctx.resume();const o=ctx.createOscillator(),g=ctx.createGain(),s=ctx.currentTime+t;o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(.18,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g).connect(ctx.destination);o.start(s);o.stop(s+d)}catch(e){}}
+const sGood=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.22,i*.08));
+const sBad=()=>{tone(220,.2,0,"sawtooth");tone(165,.3,.12,"sawtooth")};
+function confetti(n=40){const cs=["#ff5a5f","#ffb347","#2fbf71","#2f9bf0","#9b59e6","#ffd93d"];for(let i=0;i<n;i++){const d=document.createElement("div");d.className="conf";d.style.left=Math.random()*100+"vw";d.style.background=cs[i%6];d.style.animationDelay=Math.random()*.4+"s";document.body.appendChild(d);setTimeout(()=>d.remove(),2300)}}
+function showS(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===id))}
+const card=(t,h)=>`<div class="lc" data-say="${h}" style="--b:${t.c}"><span>${t.e}</span>${t.w}</div>`;
+function learn(){name=$("#nm").value.trim();$("#lg").innerHTML=T.map(t=>card(t,"This is a "+t.w+".")).join("");showS("learn");setTimeout(()=>say(name?"Hello, "+name+"! Let's meet the toys.":"Let's meet the toys!"),300)}
+function build(){const a=sh(T).map(t=>({k:"a",t})),b=sh(T).map(t=>({k:"b",t})),s=sh(T).map(t=>({k:"s",t})),c=sh(T).map((t,i)=>({k:"c",asked:t,shown:i<2?t:sh(T.filter(x=>x!==t))[0]}));return[...a,...b,...s,...sh(c),{k:"m"}]}
+function start(){qs=build();qi=0;score=0;streak=0;showS("game");render()}
+const RD={a:"ROUND 1 · WHAT IS IT?",b:"ROUND 2 · LISTEN & TAP!",s:"ROUND 3 · SPELL IT!",c:"ROUND 4 · YES OR NO?",m:"FINAL · MEMORY MATCH!"};
+const pic=(t,s)=>`<div class="pic" data-say="${s}" style="--b:${t.c}55">${t.e}</div>`;
+function render(){
+const q=qs[qi];lock=false;pos=0;$("#msg").textContent="";$("#rd").textContent=RD[q.k];$("#cnt").textContent=(qi+1)+"/"+qs.length;
+$("#combo").textContent=streak>=2?"🔥"+streak:"⭐ "+score;
+const p=qi/qs.length*100;$("#fill").style.width=p+"%";$("#mv").style.left=p+"%";
+let h="",t=q.t;
+if(q.k=="a")h=pic(t,t.w)+`<div class="hint">Tap the picture 🔊</div><div class="opts">${sh(T).map(x=>`<button data-v="${x.w}" style="--b:${x.c}">${x.w}</button>`).join("")}</div>`;
+if(q.k=="b")h=`<button class="btn speak" data-say="${t.w}">🔊</button><div class="hint">Listen. Then tap the toy!</div><div class="opts">${sh(T).map(x=>`<button class="pc" data-v="${x.w}">${x.e}</button>`).join("")}</div>`;
+if(q.k=="s")h=pic(t,t.w)+`<div class="slots">${[...t.w].map((_,i)=>`<span class="slot" id="sl${i}"></span>`).join("")}</div><div class="hint">Tap the letters in order!</div><div class="tiles">${sh([...t.w]).map(l=>`<button class="tile" data-l="${l}">${l}</button>`).join("")}</div>`;
+if(q.k=="c")h=pic(q.shown,"Is this a "+q.asked.w+"?")+`<div class="q">Is this a <span style="color:${q.asked.c}">${q.asked.w}</span>? 🔊</div><div class="opts"><button class="yn" data-v="yes" style="--b:#27ae60">✔ Yes, it is.</button><button class="yn" data-v="no" style="--b:#ff5a5f">✘ No, it isn’t.</button></div>`;
+if(q.k=="m"){mem={open:[],done:0,miss:0,busy:false};h=`<div class="hint">Match the toy with its word!</div><div class="mem">${sh([...T.map(x=>({x,w:0})),...T.map(x=>({x,w:1}))]).map((c,i)=>`<button class="mc" data-m="${i}" data-id="${c.x.w}" data-w="${c.w}">?</button>`).join("")}</div>`}
+$("#qb").innerHTML=h;
+if(q.k=="b")say(t.w,null,300);
+if(q.k=="c")say("Is this a "+q.asked.w+"?",null,300);
+}
+function win(el,sentence){
+const q=qs[qi];lock=true;if(!q.miss){score++;streak++}else streak=0;
+sGood();confetti(streak>=3?60:28);if(el)el.classList.add("good");
+const pr=streak>=3?"Combo! 🔥":["Great! 🌟","Super! 🎉","Yay! 👏","Awesome! ⭐"][Math.random()*4|0];
+$("#msg").textContent=pr+" "+sentence.replace("isn't","isn’t");$("#combo").textContent=streak>=2?"🔥"+streak:"⭐ "+score;
+say(sentence,()=>{qi++;qi>=qs.length?finish():render()},450);
+}
+function miss(el){qs[qi].miss=true;streak=0;sBad();$("#msg").textContent="Try again! 💪";if(el){el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake")}}
+function answer(btn){
+if(lock)return;const q=qs[qi],v=btn.dataset.v;
+const ok=q.k=="c"?(v=="yes")===(q.shown===q.asked):v===q.t.w;
+if(!ok){miss(btn);btn.classList.add("dim");return}
+win(btn,q.k=="c"?(q.shown===q.asked?"Yes, it is. It is a "+q.shown.w+".":"No, it isn't. It is a "+q.shown.w+"."):"It is a "+q.t.w+".");
+}
+function tile(b){
+if(lock)return;const q=qs[qi],w=q.t.w;
+if(b.dataset.l===w[pos]){const s=$("#sl"+pos);s.textContent=b.dataset.l;s.classList.add("f");b.classList.add("used");tone(660+pos*90,.15);pos++;if(pos==w.length)win(null,"It is a "+w+". "+w.toUpperCase().split("").join(", ")+".")}
+else miss(b);
+}
+function flip(b){
+if(lock||mem.busy||b.classList.contains("up")||b.classList.contains("ok"))return;
+const w=+b.dataset.w,id=b.dataset.id;b.classList.add("up");if(w)b.classList.add("w");b.textContent=w?id:T.find(x=>x.w==id).e;
+if(!w)say(id);tone(500,.1);mem.open.push(b);
+if(mem.open.length<2)return;
+const[a,c]=mem.open;mem.open=[];
+if(a.dataset.id==c.dataset.id&&a.dataset.w!=c.dataset.w){a.classList.add("ok");c.classList.add("ok");sGood();mem.done++;
+if(mem.done==4){qs[qi].miss=mem.miss>3;win(null,"You found all the toys!")}}
+else{mem.miss++;mem.busy=true;sBad();setTimeout(()=>{[a,c].forEach(x=>{x.classList.remove("up","w");x.textContent="?"});mem.busy=false},900)}
+}
+function finish(){
+$("#fill").style.width="100%";$("#mv").style.left="100%";
+const r=score/qs.length,n=r>=.85?3:r>=.6?2:1;
+$("#ttl").textContent=(name?name+", ":"")+(n==3?"you’re a STAR!":"good job!");
+$("#st").innerHTML=[0,1,2].map(i=>`<b style="animation-delay:${i*.25}s">${i<n?"⭐":"☆"}</b>`).join("");
+$("#sc").textContent="Score: "+score+" / "+qs.length;
+$("#rv").innerHTML=T.map(t=>card(t,"A "+t.w+".")).join("");
+showS("end");confetti(80);sGood();say("Great job"+(name?", "+name:"")+"!",null,500);
+}
+document.addEventListener("click",e=>{
+const s=e.target.closest("[data-say]");if(s&&!lock)say(s.dataset.say);
+const b=e.target.closest("[data-v]");if(b)answer(b);
+const t=e.target.closest(".tile");if(t)tile(t);
+const m=e.target.closest("[data-m]");if(m)flip(m);
+});
+$("#go").onclick=learn;$("#go2").onclick=start;$("#again").onclick=()=>{clearTimeout(timer);tok++;start()};
+$("#nm").addEventListener("keydown",e=>{if(e.key=="Enter")learn()});
+$("#mute").onclick=()=>{muted=!muted;$("#mute").textContent=muted?"🔇":"🔊";if(muted){tok++;try{speechSynthesis.cancel()}catch(e){}}};
+</script></body></html>
