@@ -1,192 +1,173 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Vocabulary Game: Toys</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<title>Town Dash: Places in the Community</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{--sky1:#6cc8ff;--sky2:#e8f8ff;--card:#fff;--ink:#2b2d5b;--muted:#6b6f9c;--pri:#ff7a45;--sh:rgba(40,50,120,.2);--h1:#8fe28a;--h2:#5fcf6f;--tile:#fff3d6;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sky1:#141a4a;--sky2:#2f3787;--card:#2a2f6b;--ink:#fff;--muted:#b9bdf0;--sh:rgba(0,0,0,.4);--h1:#2c7a52;--h2:#226443;--tile:#3a4090;color-scheme:dark}}
-:root[data-theme="dark"]{--sky1:#141a4a;--sky2:#2f3787;--card:#2a2f6b;--ink:#fff;--muted:#b9bdf0;--sh:rgba(0,0,0,.4);--h1:#2c7a52;--h2:#226443;--tile:#3a4090;color-scheme:dark}
-html,body{height:100%;margin:0}
-body{background:linear-gradient(var(--sky1),var(--sky2));font-family:"Baloo 2","Comic Sans MS",system-ui,sans-serif;color:var(--ink);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
-.sun{position:fixed;top:4%;right:6%;font-size:70px;animation:spin 60s linear infinite;pointer-events:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-.cloud{position:fixed;font-size:64px;opacity:.85;animation:drift 45s linear infinite;pointer-events:none}
-@keyframes drift{from{transform:translateX(-120px)}to{transform:translateX(110vw)}}
-.hills{position:fixed;left:0;bottom:0;width:100%;height:20vh;pointer-events:none}
-#app{position:relative;z-index:2;max-width:580px;margin:0 auto;min-height:100%;padding:16px 16px 22vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
-.screen{display:none}.screen.on{display:block;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
-@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-.card{background:var(--card);border-radius:32px;box-shadow:0 10px 0 var(--sh),0 20px 40px var(--sh);padding:20px;text-align:center;border:4px solid rgba(255,255,255,.6)}
-h1{margin:0;font-size:2.6rem;line-height:1;font-weight:800}
-h1 small{display:block;font-size:1rem;letter-spacing:.2em;color:var(--muted);margin-bottom:4px}
-h1 i{font-style:normal;display:inline-block;text-shadow:0 4px 0 rgba(0,0,0,.15);animation:bob 1.8s ease-in-out infinite}
-p{margin:8px 0;color:var(--muted);font-weight:500}
-.row{font-size:3.4rem;display:flex;justify-content:center;gap:10px;margin:14px 0}
-.row span{animation:bob 1.6s ease-in-out infinite}.row span:nth-child(2){animation-delay:.2s}.row span:nth-child(3){animation-delay:.4s}.row span:nth-child(4){animation-delay:.6s}
-@keyframes bob{50%{transform:translateY(-12px) rotate(-5deg)}}
-input{font:inherit;font-size:1.3rem;font-weight:700;text-align:center;padding:10px;border-radius:20px;border:3px solid #ffd9c7;background:var(--card);color:var(--ink);width:80%;max-width:300px;margin:8px 0}
-.btn{font:inherit;font-weight:800;font-size:1.4rem;border:0;border-radius:24px;padding:12px 28px;color:#fff;background:linear-gradient(#ffa24a,#ff6a3d);box-shadow:0 6px 0 #c4472a,inset 0 3px 0 rgba(255,255,255,.4);cursor:pointer;transition:transform .1s,box-shadow .1s;margin:6px}
-.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #c4472a}
-.top{display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.track{flex:1;height:18px;border-radius:99px;background:rgba(255,255,255,.6);position:relative;box-shadow:inset 0 3px 0 rgba(0,0,0,.08)}
-.fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ffd93d,#ff6a3d);transition:width .6s}
-.mover{position:absolute;top:-17px;left:0;font-size:32px;transition:left .6s;transform:translateX(-30%)}
-.flag{position:absolute;right:-6px;top:-20px;font-size:28px}
-.pill{background:var(--card);border-radius:99px;padding:2px 12px;font-weight:800;box-shadow:0 4px 0 var(--sh);white-space:nowrap}
-.mute{background:var(--card);border:0;border-radius:50%;width:42px;height:42px;font-size:20px;box-shadow:0 4px 0 var(--sh);cursor:pointer}
-.round{font-weight:800;color:var(--muted);letter-spacing:.05em}
-.pic{width:170px;height:170px;margin:8px auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6.5rem;cursor:pointer;user-select:none;background:radial-gradient(circle at 35% 30%,#fff,var(--b));box-shadow:0 8px 0 var(--sh);animation:bob 2.2s ease-in-out infinite}
-.hint{color:var(--muted);font-weight:700;margin:4px 0 12px}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.opts button{font:inherit;font-weight:800;font-size:1.7rem;color:#fff;border:0;border-radius:24px;padding:14px 8px;background:linear-gradient(rgba(255,255,255,.3),rgba(0,0,0,.08)),var(--b);box-shadow:0 6px 0 rgba(0,0,0,.25);cursor:pointer;transition:transform .1s}
-.opts button.pc{background:var(--card);box-shadow:0 6px 0 var(--sh);font-size:4rem;line-height:1.1}
-.opts button:active{transform:translateY(4px)}
-.opts button.yn{font-size:1.25rem}
-.q{font-size:1.9rem;font-weight:800;margin:6px 0 12px}
-.speak{width:110px;height:110px;border-radius:50%;font-size:3rem;padding:0;animation:pulse 1.5s infinite}
-@keyframes pulse{50%{transform:scale(1.08)}}
-.good{outline:6px solid #2fbf71;animation:hop .5s}
-@keyframes hop{40%{transform:translateY(-14px) scale(1.06)}}
-.shake{animation:shake .4s}.dim{opacity:.4;pointer-events:none}
-@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
-#msg{min-height:2.4rem;margin-top:14px;font-size:1.35rem;font-weight:800}
-.slots,.tiles{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
-.slot{width:48px;height:56px;border-radius:14px;border:3px dashed var(--muted);font-size:2rem;font-weight:800;line-height:52px;color:var(--pri)}
-.slot.f{border:3px solid #2fbf71;background:#e4ffe9;color:#1e8a4c;animation:pop .3s}
-.tile{font:inherit;font-weight:800;font-size:2rem;width:58px;height:62px;border:0;border-radius:16px;background:var(--tile);color:var(--ink);box-shadow:0 5px 0 var(--sh);cursor:pointer;text-transform:lowercase}
-.tile:active{transform:translateY(4px)}.tile.used{visibility:hidden}
-.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
-.mc{font:inherit;font-weight:800;aspect-ratio:1;border:0;border-radius:18px;font-size:1.1rem;background:linear-gradient(135deg,#ffa24a,#ff5a8a);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer;padding:0}
-.mc.up{background:var(--card);color:var(--ink);font-size:2.3rem;animation:pop .3s}.mc.ok{background:#d9ffe3;color:#1e8a4c}.mc.up.w{font-size:1.2rem}
-.lg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
-.lc{border-radius:24px;padding:10px 4px;cursor:pointer;font-weight:800;font-size:1.5rem;color:#fff;background:linear-gradient(rgba(255,255,255,.3),rgba(0,0,0,.08)),var(--b);box-shadow:0 6px 0 rgba(0,0,0,.22)}
-.lc span{display:block;font-size:3.6rem;animation:bob 2s ease-in-out infinite}.lc:active{transform:translateY(4px)}
-.stars{font-size:3.4rem;letter-spacing:6px}.stars b{display:inline-block;animation:pop .5s backwards}
-.conf{position:fixed;top:-20px;width:12px;height:12px;border-radius:3px;animation:fall 1.6s ease-in forwards;z-index:9;pointer-events:none}
-@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.2}}
-</style></head>
-<body>
-<div class="sun">☀️</div><div class="cloud" style="top:8%;animation-delay:-5s">☁️</div><div class="cloud" style="top:40%;animation-delay:-24s;font-size:46px">☁️</div>
-<svg class="hills" viewBox="0 0 800 160" preserveAspectRatio="none"><path d="M0 70Q150 0 300 60T600 50T800 70V160H0Z" fill="var(--h1)"/><path d="M0 110Q200 40 400 100T800 90V160H0Z" fill="var(--h2)"/></svg>
-<div id="app">
-<section class="screen on" id="start"><div class="card">
-<h1><small>VOCABULARY GAME</small><i style="color:#ff5a5f">T</i><i style="color:#2f9bf0;animation-delay:.15s">O</i><i style="color:#27ae60;animation-delay:.3s">Y</i><i style="color:#9b59e6;animation-delay:.45s">S</i></h1>
-<div class="row"><span>🚗</span><span>✈️</span><span>🚂</span><span>🤖</span></div>
-<p>Learn, listen, spell and play!</p>
-<input id="nm" maxlength="14" placeholder="Your name" autocomplete="off">
-<div><button class="btn" id="go">▶ PLAY</button></div>
-<p style="font-size:.9rem">🔊 Turn on your sound</p>
-</div></section>
-<section class="screen" id="learn"><div class="card">
-<h1 style="font-size:2rem;color:var(--pri)">Meet the toys!</h1>
-<p>Tap each toy and listen 👂</p>
-<div class="lg" id="lg"></div>
-<button class="btn" id="go2">Let’s play! ➜</button>
-</div></section>
-<section class="screen" id="game">
-<div class="top"><div class="track"><div class="fill" id="fill"></div><div class="mover" id="mv">🚗</div><div class="flag">🏁</div></div><div class="pill" id="cnt"></div><div class="pill" id="combo"></div><button class="mute" id="mute">🔊</button></div>
-<div class="card"><div class="round" id="rd"></div><div id="qb"></div><div id="msg"></div></div>
+:root{--n1:#0b1030;--n2:#2a2d73;--paper:#f4f2ff;--ink:#14183a;--lamp:#ffcf5c;--pink:#ff5d8f;--mint:#3ddc97;--line:#cfcbf2;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:500 1rem/1.45 "DM Sans",system-ui,sans-serif;color:var(--paper);background:radial-gradient(circle at 82% 8%,#fff6d6 0 22px,transparent 24px),radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),radial-gradient(1.5px 1.5px at 36% 9%,#fff,transparent),radial-gradient(1px 1px at 58% 22%,#fff,transparent),radial-gradient(1.5px 1.5px at 70% 12%,#fff,transparent),radial-gradient(1px 1px at 26% 30%,#fff,transparent),linear-gradient(180deg,var(--n1),var(--n2) 85%);background-attachment:fixed;background-color:var(--n1)}
+h1,h2,.d{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;margin:0;letter-spacing:-.02em}
+#app{max-width:720px;margin:0 auto;padding:16px 16px 40px}
+.scr{display:none}.scr.on{display:block}
+.btn{font:700 1.05rem "DM Sans",sans-serif;border:2px solid var(--lamp);border-radius:12px;padding:12px 22px;cursor:pointer;background:var(--lamp);color:var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{box-shadow:0 0 22px rgba(255,207,92,.55)}.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--lamp)}
+.btn:focus-visible,.opt:focus-visible,.tk:focus-visible,input:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+#home{padding-top:5vh}
+#home h1{font-size:clamp(3rem,13vw,5.6rem);line-height:.92;margin-bottom:14px}
+#home h1 small{display:block;font-size:.3em;letter-spacing:0;font-weight:600;color:var(--lamp);margin-top:10px}
+#home p{max-width:440px;margin:0 0 22px;color:#d6d3f5}
+.belt{margin:34px -16px 26px;overflow:hidden;border-bottom:8px solid #181c52}
+.belt div{display:flex;width:max-content;animation:pan 38s linear infinite}
+.belt svg{width:150px;flex:none;margin-right:6px}
+@keyframes pan{to{transform:translateX(-50%)}}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.sheet{background:var(--paper);color:var(--ink);border-radius:18px;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin:16px 0 20px}
+.pl svg{width:100%;display:block;border-radius:10px;background:#1b1f4b}.pl b{display:block;margin-top:6px;font-family:"Bricolage Grotesque";font-size:.95rem}.pl i{font-style:normal;font-size:.82rem;color:#4a4d7a}
+.sheet .btn.ghost{color:var(--ink);border-color:var(--ink)}
+.shop text.sg{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;fill:var(--lamp);filter:drop-shadow(0 0 4px rgba(255,207,92,.9))}
+#top{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:14px}
+#hp span{font-size:1.4rem;color:var(--pink);margin-right:2px}#hp span.x{color:#4a4d8f}
+#sc{font-family:"Bricolage Grotesque";font-size:1.3rem}#sk{color:var(--lamp);min-width:60px;text-align:right}
+#track{position:relative;height:46px;margin:0 6px 14px}
+#track:before{content:"";position:absolute;left:0;right:0;bottom:8px;height:3px;background:#3b3f8c;border-radius:3px}
+#track .n{position:absolute;bottom:3px;width:13px;height:13px;border-radius:50%;background:#2a2d73;border:2px solid #5a5ec0;transform:translateX(-50%);transition:.3s}
+#track .n.d{background:var(--lamp);border-color:var(--lamp);box-shadow:0 0 12px var(--lamp)}
+#run{position:absolute;bottom:14px;width:20px;transition:left .8s cubic-bezier(.4,1.5,.5,1)}
+#bar{height:6px;background:#1e2160;border-radius:9px;overflow:hidden;margin-bottom:14px}#bar i{display:block;height:100%;width:100%;background:var(--lamp)}
+#q{padding:0;overflow:hidden}
+#pic{background:linear-gradient(#1b1f4b,#262a6b);padding:12px 0 0}#pic svg{display:block;width:min(100%,260px);margin:0 auto}
+#qb{padding:18px 20px 20px}#qn{font-size:.85rem;color:#5b5e8f;font-weight:700}
+#pr{font:800 1.3rem/1.3 "Bricolage Grotesque",sans-serif;margin:6px 0 16px}
+.opt{display:flex;gap:12px;align-items:center;width:100%;text-align:left;font:700 1rem "DM Sans",sans-serif;color:var(--ink);background:#fff;border:2px solid var(--line);border-bottom-width:5px;border-radius:14px;padding:11px 14px;margin-bottom:9px;cursor:pointer;transition:.12s}
+.opt b{flex:none;width:28px;height:28px;border-radius:8px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:.85rem}
+.opt:hover:not(:disabled){border-color:var(--ink);transform:translateY(-2px)}
+.opt.ok{background:#d3f8e6;border-color:#1fa86c}.opt.no{background:#ffdbe6;border-color:var(--pink)}
+.slot{min-height:56px;border:2px dashed #9b98d6;border-radius:14px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;background:#fff}
+.pool{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tk{font:700 1rem "DM Sans",sans-serif;background:var(--ink);color:var(--paper);border:0;border-radius:9px;padding:8px 13px;cursor:pointer}
+input.ty{width:100%;font:700 1.25rem "DM Sans",sans-serif;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink);margin-bottom:12px}
+#fb{display:none;margin-top:12px;padding:14px 16px;border-radius:14px;border-left:6px solid var(--mint);background:#ecebff}
+#fb.bad{border-color:var(--pink)}#fb.on{display:block;animation:up .3s}
+@keyframes up{from{transform:translateY(10px);opacity:0}}
+#fb h2{font-size:1.15rem}#ft{margin:2px 0 12px}
+.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#end .sheet{text-align:center}#end h2{font-size:2rem;margin:4px 0 6px}
+#stars{font-size:2.6rem;color:var(--lamp);letter-spacing:6px;-webkit-text-stroke:1px #b88400}
+.rv{text-align:left;margin:16px 0;max-height:250px;overflow:auto;font-size:.92rem}.rv div{padding:8px 2px;border-bottom:1px solid var(--line)}
+.rv em{font-style:normal;font-weight:700;margin-right:6px;color:#1fa86c}.rv em.x{color:#d6285f}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div id="app">
+
+<section id="home" class="scr on">
+<h1 class="d">Town Dash<small>Places in the Community</small></h1>
+<p>It is getting dark and the street lamps are still off. Answer at each of the 40 stops to light the way home. Five mistakes and the shops close.</p>
+<div class="belt"><div id="belt"></div></div>
+<div class="row"><button class="btn" id="go">Start walking</button><button class="btn ghost" id="lr">Study the shops first</button></div>
 </section>
-<section class="screen" id="end"><div class="card">
-<h1 id="ttl" style="font-size:2rem;color:var(--pri)"></h1>
-<div class="stars" id="st"></div>
-<p id="sc" style="font-size:1.4rem;font-weight:800;color:var(--ink)"></p>
-<p>Tap to listen again 👇</p>
-<div class="lg" id="rv"></div>
-<button class="btn" id="again">↻ PLAY AGAIN</button>
-</div></section>
+
+<section id="learn" class="scr"><div class="sheet">
+<h2>Know the street</h2><p>Remember the pattern: <b>I am going to the ___ to ___.</b></p>
+<div class="grid" id="lg"></div>
+<div class="row"><button class="btn" id="go2">I’m ready</button><button class="btn ghost" id="bk">Back</button></div></div></section>
+
+<section id="game" class="scr">
+<div id="top"><span id="hp"></span><span id="sc"></span><span id="sk"></span></div>
+<div id="track"></div><div id="bar"><i id="bi"></i></div>
+<div class="sheet" id="q"><div id="pic"></div><div id="qb"><div id="qn"></div><div id="pr"></div><div id="ans"></div>
+<div id="fb"><h2 id="fh"></h2><div id="ft"></div><button class="btn" id="nx" style="background:var(--ink);color:var(--paper);border-color:var(--ink)">Next stop</button></div></div></div>
+</section>
+
+<section id="end" class="scr"><div class="sheet">
+<div id="stars"></div><h2 id="et"></h2><p id="es"></p>
+<div class="rv" id="rv"></div>
+<div class="row" style="justify-content:center"><button class="btn" id="again" style="background:var(--ink);color:var(--paper);border-color:var(--ink)">Walk again</button><button class="btn ghost" id="menu">Main menu</button></div></div></section>
 </div>
 <script>
-const T=[{w:"car",e:"🚗",c:"#ff5a5f"},{w:"plane",e:"✈️",c:"#2f9bf0"},{w:"train",e:"🚂",c:"#27ae60"},{w:"robot",e:"🤖",c:"#9b59e6"}];
-const $=s=>document.querySelector(s);
-const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-let name="",qi=0,score=0,qs=[],lock=false,muted=false,ctx=null,timer=null,streak=0,tok=0,sp=null,voice=null,keep=[],pos=0,mem=null;
-const hasSp="speechSynthesis" in window;
-function pick(){if(!hasSp)return;const v=speechSynthesis.getVoices();voice=v.find(x=>/en[-_]US/i.test(x.lang)&&/female|samantha|google|zira|aria/i.test(x.name))||v.find(x=>/^en/i.test(x.lang))||null}
-if(hasSp){pick();speechSynthesis.onvoiceschanged=pick}
-function say(t,cb,delay=0){
-const k=++tok;clearTimeout(sp);
-if(muted||!hasSp){if(cb)sp=setTimeout(()=>k===tok&&cb(),1500);return}
-try{speechSynthesis.cancel()}catch(e){}
-sp=setTimeout(()=>{
-const u=new SpeechSynthesisUtterance(t);u.lang="en-US";if(voice)u.voice=voice;u.rate=.8;u.pitch=1.1;
-keep.push(u);let d=false;
-const f=()=>{if(d)return;d=true;keep=keep.filter(x=>x!==u);if(cb&&k===tok)setTimeout(()=>k===tok&&cb(),600)};
-u.onend=f;u.onerror=f;
-try{speechSynthesis.resume();speechSynthesis.speak(u)}catch(e){f()}
-setTimeout(f,8000);
-},180+delay)}
-function tone(f,d,t=0,ty="triangle"){if(muted)return;try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();if(ctx.state=="suspended")ctx.resume();const o=ctx.createOscillator(),g=ctx.createGain(),s=ctx.currentTime+t;o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(.18,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g).connect(ctx.destination);o.start(s);o.stop(s+d)}catch(e){}}
-const sGood=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.22,i*.08));
-const sBad=()=>{tone(220,.2,0,"sawtooth");tone(165,.3,.12,"sawtooth")};
-function confetti(n=40){const cs=["#ff5a5f","#ffb347","#2fbf71","#2f9bf0","#9b59e6","#ffd93d"];for(let i=0;i<n;i++){const d=document.createElement("div");d.className="conf";d.style.left=Math.random()*100+"vw";d.style.background=cs[i%6];d.style.animationDelay=Math.random()*.4+"s";document.body.appendChild(d);setTimeout(()=>d.remove(),2300)}}
-function showS(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===id))}
-const card=(t,h)=>`<div class="lc" data-say="${h}" style="--b:${t.c}"><span>${t.e}</span>${t.w}</div>`;
-function learn(){name=$("#nm").value.trim();$("#lg").innerHTML=T.map(t=>card(t,"This is a "+t.w+".")).join("");showS("learn");setTimeout(()=>say(name?"Hello, "+name+"! Let's meet the toys.":"Let's meet the toys!"),300)}
-function build(){const a=sh(T).map(t=>({k:"a",t})),b=sh(T).map(t=>({k:"b",t})),s=sh(T).map(t=>({k:"s",t})),c=sh(T).map((t,i)=>({k:"c",asked:t,shown:i<2?t:sh(T.filter(x=>x!==t))[0]}));return[...a,...b,...s,...sh(c),{k:"m"}]}
-function start(){qs=build();qi=0;score=0;streak=0;showS("game");render()}
-const RD={a:"ROUND 1 · WHAT IS IT?",b:"ROUND 2 · LISTEN & TAP!",s:"ROUND 3 · SPELL IT!",c:"ROUND 4 · YES OR NO?",m:"FINAL · MEMORY MATCH!"};
-const pic=(t,s)=>`<div class="pic" data-say="${s}" style="--b:${t.c}55">${t.e}</div>`;
-function render(){
-const q=qs[qi];lock=false;pos=0;$("#msg").textContent="";$("#rd").textContent=RD[q.k];$("#cnt").textContent=(qi+1)+"/"+qs.length;
-$("#combo").textContent=streak>=2?"🔥"+streak:"⭐ "+score;
-const p=qi/qs.length*100;$("#fill").style.width=p+"%";$("#mv").style.left=p+"%";
-let h="",t=q.t;
-if(q.k=="a")h=pic(t,t.w)+`<div class="hint">Tap the picture 🔊</div><div class="opts">${sh(T).map(x=>`<button data-v="${x.w}" style="--b:${x.c}">${x.w}</button>`).join("")}</div>`;
-if(q.k=="b")h=`<button class="btn speak" data-say="${t.w}">🔊</button><div class="hint">Listen. Then tap the toy!</div><div class="opts">${sh(T).map(x=>`<button class="pc" data-v="${x.w}">${x.e}</button>`).join("")}</div>`;
-if(q.k=="s")h=pic(t,t.w)+`<div class="slots">${[...t.w].map((_,i)=>`<span class="slot" id="sl${i}"></span>`).join("")}</div><div class="hint">Tap the letters in order!</div><div class="tiles">${sh([...t.w]).map(l=>`<button class="tile" data-l="${l}">${l}</button>`).join("")}</div>`;
-if(q.k=="c")h=pic(q.shown,"Is this a "+q.asked.w+"?")+`<div class="q">Is this a <span style="color:${q.asked.c}">${q.asked.w}</span>? 🔊</div><div class="opts"><button class="yn" data-v="yes" style="--b:#27ae60">✔ Yes, it is.</button><button class="yn" data-v="no" style="--b:#ff5a5f">✘ No, it isn’t.</button></div>`;
-if(q.k=="m"){mem={open:[],done:0,miss:0,busy:false};h=`<div class="hint">Match the toy with its word!</div><div class="mem">${sh([...T.map(x=>({x,w:0})),...T.map(x=>({x,w:1}))]).map((c,i)=>`<button class="mc" data-m="${i}" data-id="${c.x.w}" data-w="${c.w}">?</button>`).join("")}</div>`}
-$("#qb").innerHTML=h;
-if(q.k=="b")say(t.w,null,300);
-if(q.k=="c")say("Is this a "+q.asked.w+"?",null,300);
-}
-function win(el,sentence){
-const q=qs[qi];lock=true;if(!q.miss){score++;streak++}else streak=0;
-sGood();confetti(streak>=3?60:28);if(el)el.classList.add("good");
-const pr=streak>=3?"Combo! 🔥":["Great! 🌟","Super! 🎉","Yay! 👏","Awesome! ⭐"][Math.random()*4|0];
-$("#msg").textContent=pr+" "+sentence.replace("isn't","isn’t");$("#combo").textContent=streak>=2?"🔥"+streak:"⭐ "+score;
-say(sentence,()=>{qi++;qi>=qs.length?finish():render()},450);
-}
-function miss(el){qs[qi].miss=true;streak=0;sBad();$("#msg").textContent="Try again! 💪";if(el){el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake")}}
-function answer(btn){
-if(lock)return;const q=qs[qi],v=btn.dataset.v;
-const ok=q.k=="c"?(v=="yes")===(q.shown===q.asked):v===q.t.w;
-if(!ok){miss(btn);btn.classList.add("dim");return}
-win(btn,q.k=="c"?(q.shown===q.asked?"Yes, it is. It is a "+q.shown.w+".":"No, it isn't. It is a "+q.shown.w+"."):"It is a "+q.t.w+".");
-}
-function tile(b){
-if(lock)return;const q=qs[qi],w=q.t.w;
-if(b.dataset.l===w[pos]){const s=$("#sl"+pos);s.textContent=b.dataset.l;s.classList.add("f");b.classList.add("used");tone(660+pos*90,.15);pos++;if(pos==w.length)win(null,"It is a "+w+". "+w.toUpperCase().split("").join(", ")+".")}
-else miss(b);
-}
-function flip(b){
-if(lock||mem.busy||b.classList.contains("up")||b.classList.contains("ok"))return;
-const w=+b.dataset.w,id=b.dataset.id;b.classList.add("up");if(w)b.classList.add("w");b.textContent=w?id:T.find(x=>x.w==id).e;
-if(!w)say(id);tone(500,.1);mem.open.push(b);
-if(mem.open.length<2)return;
-const[a,c]=mem.open;mem.open=[];
-if(a.dataset.id==c.dataset.id&&a.dataset.w!=c.dataset.w){a.classList.add("ok");c.classList.add("ok");sGood();mem.done++;
-if(mem.done==4){qs[qi].miss=mem.miss>3;win(null,"You found all the toys!")}}
-else{mem.miss++;mem.busy=true;sBad();setTimeout(()=>{[a,c].forEach(x=>{x.classList.remove("up","w");x.textContent="?"});mem.busy=false},900)}
-}
-function finish(){
-$("#fill").style.width="100%";$("#mv").style.left="100%";
-const r=score/qs.length,n=r>=.85?3:r>=.6?2:1;
-$("#ttl").textContent=(name?name+", ":"")+(n==3?"you’re a STAR!":"good job!");
-$("#st").innerHTML=[0,1,2].map(i=>`<b style="animation-delay:${i*.25}s">${i<n?"⭐":"☆"}</b>`).join("");
-$("#sc").textContent="Score: "+score+" / "+qs.length;
-$("#rv").innerHTML=T.map(t=>card(t,"A "+t.w+".")).join("");
-showS("end");confetti(80);sGood();say("Great job"+(name?", "+name:"")+"!",null,500);
-}
-document.addEventListener("click",e=>{
-const s=e.target.closest("[data-say]");if(s&&!lock)say(s.dataset.say);
-const b=e.target.closest("[data-v]");if(b)answer(b);
-const t=e.target.closest(".tile");if(t)tile(t);
-const m=e.target.closest("[data-m]");if(m)flip(m);
-});
-$("#go").onclick=learn;$("#go2").onclick=start;$("#again").onclick=()=>{clearTimeout(timer);tok++;start()};
-$("#nm").addEventListener("keydown",e=>{if(e.key=="Enter")learn()});
-$("#mute").onclick=()=>{muted=!muted;$("#mute").textContent=muted?"🔇":"🔊";if(muted){tok++;try{speechSynthesis.cancel()}catch(e){}}};
+const P=[['school','to study'],['bank','to save money'],['supermarket','to buy vegetables and milk'],['market','to buy fresh fish'],['mall','to buy new shoes'],['convenience store','to buy snacks and a drink'],['zoo','to see the animals'],['park','to jog and play'],['farm','to buy fresh eggs'],['bakery','to buy bread and cake'],['hair salon','to get a haircut'],['bookshop','to buy a storybook'],['toy store','to buy a robot']];
+const C=['#ff5d8f','#3ddc97','#5ec8ff','#ffa94d','#a78bfa','#ff7a59','#2fd0c4','#9be15d','#f472b6','#fbbf24','#6aa8ff','#f87171','#c084fc'];
+function shop(i,label){const c=C[i%13],r=i%3,y=r==1?50:60,h=r==1?110:100;let s=`<svg class="shop" viewBox="0 0 200 170"><rect x="0" y="160" width="200" height="10" fill="#181c52"/><rect x="20" y="${y}" width="160" height="${h}" rx="3" fill="${c}"/>`;
+s+=r==1?`<path d="M12 52L100 12L188 52Z" fill="#0b1030" opacity=".6"/>`:r==2?`<rect x="74" y="22" width="52" height="44" fill="${c}"/><rect x="68" y="14" width="64" height="9" fill="#0b1030" opacity=".6"/>`:`<rect x="12" y="52" width="176" height="10" fill="#0b1030" opacity=".6"/>`;
+for(let k=0;k<8;k++)s+=`<rect x="${20+k*20}" y="100" width="20" height="16" fill="${k%2?'#f4f2ff':'#0b1030'}" opacity="${k%2?1:.55}"/>`;
+s+=`<rect x="38" y="68" width="124" height="26" rx="5" fill="#0b1030"/><text class="sg" x="100" y="86" text-anchor="middle" font-size="${label.length>9?12:15}">${label}</text>`;
+s+=`<rect x="32" y="124" width="36" height="26" rx="2" fill="#ffe9a8"/><rect x="132" y="124" width="36" height="26" rx="2" fill="#ffe9a8" opacity=".85"/><rect x="50" y="124" width="1.5" height="26" fill="${c}"/><rect x="150" y="124" width="1.5" height="26" fill="${c}"/><rect x="86" y="122" width="28" height="38" rx="3" fill="#0b1030"/><circle cx="107" cy="142" r="2" fill="#ffcf5c"/></svg>`;return s}
+const bubble=m=>`<svg class="shop" viewBox="0 0 200 170"><path d="M30 24h140a10 10 0 0 1 10 10v74a10 10 0 0 1-10 10H92l-30 28v-28H30a10 10 0 0 1-10-10V34a10 10 0 0 1 10-10z" fill="#f4f2ff"/><text x="100" y="92" text-anchor="middle" font-size="56" font-weight="800" font-family="Bricolage Grotesque,sans-serif" fill="#14183a">${m}</text></svg>`;
+const Q=[
+{s:1,p:'You keep and save your money here. Which place is it?',o:['bank','bakery','bookshop','school'],a:0,e:'We save money at the bank.'},
+{s:9,p:'I am going to the ___ to buy bread and cake.',o:['farm','bakery','zoo','park'],a:1,e:'Bread and cake come from the bakery.'},
+{k:'o',s:2,p:'Build the sentence:',a:'I am going to the supermarket to buy some milk',e:'Pattern: I am going to the + place + to buy + thing.'},
+{s:10,p:'“Where are you going?” Choose the best answer.',o:['I am going to the hair salon to get a haircut.','I going to hair salon for cut hair.','I am go to the hair salon to haircut.','I am going hair salon to get haircut.'],a:0,e:'Use am going + to the + place, then to + verb.'},
+{k:'t',s:6,p:'Lions, monkeys and elephants live here. Type the place (one word).',a:['zoo'],e:'We go to the zoo to see the animals.'},
+{s:4,p:'It is one very big building with many shops, a food court and a cinema. Where is it?',o:['market','convenience store','mall','farm'],a:2,e:'A mall has many shops under one roof.'},
+{s:5,p:'Mia is thirsty at 11 p.m. She needs a snack and a drink from a small shop that is open 24 hours. Where does she go?',o:['supermarket','convenience store','bookshop','bank'],a:1,e:'A convenience store is small and often open all night.'},
+{s:12,p:'Dino is going to the ___ to buy a robot and a doll.',o:['toy store','bakery','hair salon','school'],a:0,e:'Toys are sold at the toy store.'},
+{k:'o',s:11,p:'Build the sentence:',a:'She is going to the bookshop to buy a novel',e:'With she, use is going. Not am going.'},
+{s:-1,m:'“ ”',p:'“Excuse me, where is the bank?” Choose the polite and correct reply.',o:['It is next to the school.','Yes, I am going bank.','I buy a bank.','The bank are at me.'],a:0,e:'Give directions with is + next to / near / behind.'},
+{k:'t',s:3,p:'People sell fresh vegetables and fish in stalls here. You can bargain! Type the place (one word).',a:['market','traditional market'],e:'The market has stalls, and we can bargain there.'},
+{s:-1,m:'?',p:'Odd one out: which place is NOT used for buying things?',o:['bakery','park','toy store','bookshop'],a:1,e:'We go to the park to relax and play, not to buy.'},
+{s:0,p:'I am going to the ___ to study with my friends.',o:['school','bakery','mall','market'],a:0,e:'We study at school.'},
+{s:8,p:'Farmers grow rice and raise cows and chickens here. Where is it?',o:['farm','park','zoo','market'],a:0,e:'A farm is where farmers grow crops and raise animals.'},
+{k:'o',s:7,p:'Build the sentence:',a:'We are going to the park to play football',e:'With we, use are going.'},
+{s:2,p:'Which sentence is correct?',o:['My mother is going to the supermarket to buy vegetables.','My mother are going to the supermarket to buy vegetables.','My mother going to supermarket buy vegetables.','My mother is go to the supermarket to buy vegetables.'],a:0,e:'My mother = she, so we use is going.'},
+{k:'t',s:9,p:'You can smell fresh bread and cakes here. Type the place (one word).',a:['bakery'],e:'We buy bread and cake at the bakery.'},
+{s:-1,m:'“ ”',p:'“Excuse me, is there a bookshop near here?” Choose the best reply.',o:['Yes, there is. It is across from the park.','Yes, I am bookshop.','No, I buy a book.','It is going to the bookshop.'],a:0,e:'Answer Is there...? with Yes, there is / No, there is not.'},
+{s:10,p:'Rina has very long hair and wants to cut it. Where is she going?',o:['bank','hair salon','farm','zoo'],a:1,e:'We get a haircut at the hair salon.'},
+{k:'o',s:12,p:'Build the sentence:',a:'They are going to the toy store to buy a puzzle',e:'They + are going + to the toy store + to buy.'},
+{s:3,p:'In which place can you usually bargain with the seller?',o:['supermarket','mall','bank','market'],a:3,e:'At a traditional market, prices are often not fixed.'},
+{s:-1,m:'?',p:'Which sentence uses “to” for purpose correctly?',o:['I go to the bank to withdraw money.','I go to the bank for withdraw money.','I go to bank to withdrawing money.','I go to the bank to withdrawal money.'],a:0,e:'to + base verb shows purpose: to withdraw.'},
+{k:'t',s:12,p:'Children buy dolls, robots and puzzles here. Type the place (two words).',a:['toy store','toy shop'],e:'Toys are sold at the toy store.'},
+{s:4,p:'Dad and I are going to the ___ to watch a movie and buy new shoes.',o:['mall','farm','bakery','bank'],a:0,e:'A mall has a cinema and many shops.'},
+{s:2,p:'Budi has a list: rice, eggs, cooking oil and soap. He wants to buy everything in one place. Where should he go?',o:['supermarket','bakery','toy store','zoo'],a:0,e:'A supermarket sells many kinds of goods under one roof.'},
+{s:11,p:'Sinta needs a dictionary and a notebook. “I am going to the ___ to buy them.”',o:['bookshop','bakery','hair salon','zoo'],a:0,e:'Books and stationery are sold at the bookshop.'},
+{k:'o',s:1,p:'Build the sentence:',a:'My father is going to the bank to save money',e:'My father = he, so we use is going.'},
+{s:-1,m:'?',p:'Find the mistake: “I am going to the bakery for buy some bread.”',o:['for buy → to buy','am going → is going','the bakery → bakery','some bread → bread some'],a:0,e:'For purpose we say to + base verb: to buy.'},
+{s:-1,m:'“ ”',p:'Shopkeeper: “May I help you?” You want a notebook. Choose the best reply.',o:['Yes, please. I would like to buy a notebook.','Yes, I am a notebook.','No, I go notebook.','The notebook is going to me.'],a:0,e:'Use I would like to buy... to ask politely.'},
+{k:'t',s:7,p:'Children play on swings and slides here, and people jog under the trees. Type the place (one word).',a:['park'],e:'We go to the park to jog and play.'},
+{s:8,p:'I have cows, chickens and rice fields. I am not a zoo. What am I?',o:['farm','park','market','mall'],a:0,e:'A farm is where food is grown and animals are raised.'},
+{k:'o',s:5,p:'Build the sentence:',a:'We are going to the convenience store to buy a drink',e:'We + are going + to the + place + to buy.'},
+{s:-1,m:'?',p:'Which pair is matched correctly?',o:['bank – save money','zoo – buy bread','hair salon – watch animals','bookshop – get a haircut'],a:0,e:'We save money at the bank.'},
+{s:6,p:'Which sentence is correct?',o:['We are going to the zoo to see the animals.','We are going to zoo for see animals.','We going to the zoo to seeing animals.','We are go to the zoo to see animals.'],a:0,e:'are going + to the zoo + to see.'},
+{k:'t',s:11,p:'You can buy novels, comics and dictionaries here. Type the place (one word).',a:['bookshop','bookstore','book shop'],e:'Books are sold at the bookshop.'},
+{s:-1,m:'“ ”',p:'“Where is the hair salon?” – “It is ___ the bank and the bakery.” Choose the best word.',o:['between','to','for','of'],a:0,e:'We say between X and Y.'},
+{s:3,p:'Ibu goes to the market early in the morning, not to the mall. Why?',o:['Fresh food is cheap there and she can bargain.','The market has a cinema.','The market is a school.','The mall sells only books.'],a:0,e:'Markets sell fresh food and prices can be negotiated.'},
+{k:'o',s:10,p:'Build the sentence:',a:'My sister is going to the hair salon to wash her hair',e:'My sister = she, so we use is going.'},
+{s:12,p:'Dika: “I want to buy a birthday present for my little brother.” Which is the best place?',o:['toy store','bank','school','farm'],a:0,e:'A toy store is a good place for a child’s present.'},
+{s:4,p:'A mall is different from a market because ___.',o:['a mall is a big building with many shops and fixed prices','a mall is where farmers grow rice','a mall is only for saving money','a mall sells only fish in stalls'],a:0,e:'A mall is a large modern shopping building.'}];
+const $=i=>document.getElementById(i),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let i,hp,sc,sk,log,tm,t0,lim,done,ac;
+function beep(f,d){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.07;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id==id));scrollTo(0,0)}
+const strip=P.map((p,n)=>shop(n,p[0])).join('');$('belt').innerHTML=strip+strip;
+$('lg').innerHTML=P.map((p,n)=>`<div class="pl">${shop(n,p[0])}<b>the ${p[0]}</b><i>I am going to the ${p[0]} ${p[1]}.</i></div>`).join('');
+$('lr').onclick=()=>show('learn');$('bk').onclick=()=>show('home');$('go').onclick=$('go2').onclick=$('again').onclick=start;$('menu').onclick=()=>show('home');
+function start(){i=0;hp=5;sc=0;sk=0;log=[];$('track').innerHTML=Q.map((q,n)=>`<span class="n" style="left:${n/(Q.length-1)*100}%"></span>`).join('')+'<svg id="run" viewBox="0 0 20 28"><circle cx="10" cy="5" r="4" fill="#ffcf5c"/><path d="M10 10v9M10 12l-5 5M10 12l5 5M10 19l-4 8M10 19l4 8" stroke="#ffcf5c" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg>';show('game');render()}
+function hud(){$('hp').innerHTML=[0,1,2,3,4].map(n=>`<span class="${n<hp?'':'x'}">♥</span>`).join('');$('sc').textContent=sc;$('sk').textContent=sk>1?'streak '+sk:'';
+const ns=[...document.querySelectorAll('#track .n')];ns.forEach((x,n)=>x.classList.toggle('d',n<i));const t=$('track');$('run').style.left=(i/(Q.length-1)*t.clientWidth-10)+'px'}
+function render(){const q=Q[i];done=false;clearInterval(tm);$('fb').classList.remove('on','bad');hud();
+$('pic').innerHTML=q.s>=0?shop(q.s,'?'):bubble(q.m);
+$('qn').textContent=`Stop ${i+1} of ${Q.length}`+(q.k=='o'?' · build the sentence':q.k=='t'?' · type the answer':'');$('pr').textContent=q.p;const A=$('ans');A.innerHTML='';lim=q.k?45:25;
+if(!q.k){sh(q.o.map((t,n)=>[t,n])).forEach(([t,n],k)=>{const b=document.createElement('button');b.className='opt';b.innerHTML=`<b>${'ABCD'[k]}</b>`;b.append(t);b.onclick=()=>fin(n==q.a,b);b.dataset.c=n==q.a?1:0;A.appendChild(b)})}
+else if(q.k=='o'){const s=document.createElement('div');s.className='slot';const pool=document.createElement('div');pool.className='pool';A.append(s,pool);
+sh(q.a.split(' ')).forEach(w=>{const b=document.createElement('button');b.className='tk';b.textContent=w;b.onclick=()=>{if(!done)(b.parentNode==pool?s:pool).appendChild(b)};pool.appendChild(b)});
+const c=document.createElement('button');c.className='btn';c.textContent='Check';c.onclick=()=>{if(!done)fin([...s.children].map(x=>x.textContent).join(' ')==q.a)};A.appendChild(c)}
+else{const inp=document.createElement('input');inp.className='ty';inp.placeholder='Type here…';inp.autocomplete='off';const c=document.createElement('button');c.className='btn';c.textContent='Check';
+const go=()=>{if(!done)fin(q.a.includes(inp.value.trim().toLowerCase()))};c.onclick=go;inp.onkeydown=e=>{if(e.key=='Enter')go()};A.append(inp,c);setTimeout(()=>inp.focus(),50)}
+t0=Date.now();tm=setInterval(()=>{const l=lim-(Date.now()-t0)/1000;$('bi').style.width=Math.max(0,l/lim*100)+'%';$('bi').style.background=l<8?'var(--pink)':'var(--lamp)';if(l<=0)fin(false,null,true)},100)}
+function fin(ok,el,late){if(done)return;done=true;clearInterval(tm);const q=Q[i],left=Math.max(0,lim-(Date.now()-t0)/1000);
+document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.dataset.c==1)b.classList.add('ok');else if(b===el)b.classList.add('no')});
+document.querySelectorAll('#ans .tk,#ans .btn,#ans input').forEach(x=>x.disabled=true);
+if(q.s>=0){const t=$('pic').querySelector('text.sg');t.textContent=P[q.s][0];t.setAttribute('font-size',P[q.s][0].length>9?12:15)}
+let g=0;if(ok){sk++;g=100+Math.round(left*3)+(sk>1?(sk-1)*20:0);sc+=g;beep(660,.12);setTimeout(()=>beep(880,.15),110)}else{sk=0;hp--;beep(180,.3);$('ans').classList.add('shake');setTimeout(()=>$('ans').classList.remove('shake'),400)}
+log.push({q,ok});$('fb').classList.toggle('bad',!ok);
+$('fh').textContent=ok?`Correct, +${g}`:late?'Time ran out':'Not this time';
+$('ft').textContent=(!ok&&q.k=='o'?'Answer: '+q.a+'. ':!ok&&q.k=='t'?'Answer: '+q.a[0]+'. ':'')+q.e;
+$('nx').textContent=hp<=0||i==Q.length-1?'See results':'Next stop';$('fb').classList.add('on');hud()}
+$('nx').onclick=()=>{if(hp<=0||i==Q.length-1)end();else{i++;render()}};
+function end(){const n=log.filter(l=>l.ok).length,win=hp>0&&log.length==Q.length;
+$('et').textContent=win?'Every lamp on the street is lit.':'The shops closed early.';
+const r=n/Q.length,st=r>=.9?3:r>=.7?2:r>=.45?1:0;$('stars').textContent='★'.repeat(st)+'☆'.repeat(3-st);
+$('es').textContent=`${n} of ${Q.length} correct · ${sc} points`;
+$('rv').innerHTML=log.map(l=>`<div><em class="${l.ok?'':'x'}">${l.ok?'✓':'✗'}</em>${l.q.p}${l.ok?'':' <b>→ '+(l.q.k=='o'?l.q.a:l.q.k=='t'?l.q.a[0]:l.q.o[l.q.a])+'</b>'}</div>`).join('');show('end')}
 </script></body></html>
