@@ -1,173 +1,854 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Town Dash: Places in the Community</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Fun Hobbies</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--n1:#0b1030;--n2:#2a2d73;--paper:#f4f2ff;--ink:#14183a;--lamp:#ffcf5c;--pink:#ff5d8f;--mint:#3ddc97;--line:#cfcbf2;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
-body{margin:0;min-height:100vh;font:500 1rem/1.45 "DM Sans",system-ui,sans-serif;color:var(--paper);background:radial-gradient(circle at 82% 8%,#fff6d6 0 22px,transparent 24px),radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),radial-gradient(1.5px 1.5px at 36% 9%,#fff,transparent),radial-gradient(1px 1px at 58% 22%,#fff,transparent),radial-gradient(1.5px 1.5px at 70% 12%,#fff,transparent),radial-gradient(1px 1px at 26% 30%,#fff,transparent),linear-gradient(180deg,var(--n1),var(--n2) 85%);background-attachment:fixed;background-color:var(--n1)}
-h1,h2,.d{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;margin:0;letter-spacing:-.02em}
-#app{max-width:720px;margin:0 auto;padding:16px 16px 40px}
-.scr{display:none}.scr.on{display:block}
-.btn{font:700 1.05rem "DM Sans",sans-serif;border:2px solid var(--lamp);border-radius:12px;padding:12px 22px;cursor:pointer;background:var(--lamp);color:var(--ink);transition:transform .12s,box-shadow .12s}
-.btn:hover{box-shadow:0 0 22px rgba(255,207,92,.55)}.btn:active{transform:scale(.97)}
-.btn.ghost{background:transparent;color:var(--lamp)}
-.btn:focus-visible,.opt:focus-visible,.tk:focus-visible,input:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
-#home{padding-top:5vh}
-#home h1{font-size:clamp(3rem,13vw,5.6rem);line-height:.92;margin-bottom:14px}
-#home h1 small{display:block;font-size:.3em;letter-spacing:0;font-weight:600;color:var(--lamp);margin-top:10px}
-#home p{max-width:440px;margin:0 0 22px;color:#d6d3f5}
-.belt{margin:34px -16px 26px;overflow:hidden;border-bottom:8px solid #181c52}
-.belt div{display:flex;width:max-content;animation:pan 38s linear infinite}
-.belt svg{width:150px;flex:none;margin-right:6px}
-@keyframes pan{to{transform:translateX(-50%)}}
+/* Layout concept: chunky "sticker" cards on a sunny sky. During play a race track runs across the top and the runner hops one checkpoint per question. */
+:root{
+  --ink:#1d2b4f; --ink-soft:#4a5a85; --paper:#ffffff;
+  --blue:#2f8fff; --blue-d:#1f6fd0; --grape:#8b5cf6; --leaf:#22b573; --leaf-d:#168a55;
+  --sun:#ffc43d; --coral:#ff6b5b; --coral-d:#d94a3b;
+  --font-d:'Baloo 2','Fredoka','Trebuchet MS',system-ui,sans-serif;
+  --font-b:'Nunito','Segoe UI',system-ui,sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background-color:#e6f5ff;
+  background-image:linear-gradient(180deg,#bfe4ff 0%,#e6f5ff 60%,#dcf4d4 100%);
+  background-attachment:fixed;
+  color:var(--ink); font-family:var(--font-b); font-weight:700; font-size:17px; line-height:1.45;
+}
+.sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.cloud{position:absolute;left:-30vw;background:#fff;border-radius:999px;opacity:.85;animation:drift linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:55%;height:160%;left:14%;top:-70%}
+.cloud::after{width:40%;height:130%;right:12%;top:-45%}
+.c1{top:9%;width:120px;height:34px;animation-duration:70s}
+.c2{top:22%;width:90px;height:26px;animation-duration:95s;animation-delay:-40s}
+.c3{top:38%;width:70px;height:20px;animation-duration:120s;animation-delay:-80s}
+@keyframes drift{to{transform:translateX(170vw)}}
+.hills{position:absolute;left:0;bottom:0;width:100%;height:20vh;min-height:90px}
+.app{position:relative;z-index:1;max-width:760px;margin:0 auto;padding-block:18px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--font-d);margin:0;line-height:1.05;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit}
+svg{display:block}
+
+/* buttons */
+.btn{font-family:var(--font-d);font-weight:800;font-size:1.2rem;border:3px solid var(--ink);border-radius:16px;padding:.6rem 1.3rem;
+  background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--ink);cursor:pointer;transition:transform .08s,box-shadow .08s;min-height:52px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--ink)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.btn:focus-visible,.opt:focus-visible,.tile:focus-visible,.tile-h:focus-visible,.icon-btn:focus-visible,.say:focus-visible,input:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
+.btn.sun{background:var(--sun);color:var(--ink)}
+.btn.leaf{background:var(--leaf)}
+.btn.ghost{background:#fff;color:var(--ink)}
+.btn.big{font-size:1.55rem;padding:.7rem 1.6rem;min-height:64px;width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 5px 0 var(--ink)}
+.btn.small{font-size:1rem;min-height:44px;padding:.4rem 1rem}
 .row{display:flex;gap:12px;flex-wrap:wrap}
-.sheet{background:var(--paper);color:var(--ink);border-radius:18px;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin:16px 0 20px}
-.pl svg{width:100%;display:block;border-radius:10px;background:#1b1f4b}.pl b{display:block;margin-top:6px;font-family:"Bricolage Grotesque";font-size:.95rem}.pl i{font-style:normal;font-size:.82rem;color:#4a4d7a}
-.sheet .btn.ghost{color:var(--ink);border-color:var(--ink)}
-.shop text.sg{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;fill:var(--lamp);filter:drop-shadow(0 0 4px rgba(255,207,92,.9))}
-#top{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:14px}
-#hp span{font-size:1.4rem;color:var(--pink);margin-right:2px}#hp span.x{color:#4a4d8f}
-#sc{font-family:"Bricolage Grotesque";font-size:1.3rem}#sk{color:var(--lamp);min-width:60px;text-align:right}
-#track{position:relative;height:46px;margin:0 6px 14px}
-#track:before{content:"";position:absolute;left:0;right:0;bottom:8px;height:3px;background:#3b3f8c;border-radius:3px}
-#track .n{position:absolute;bottom:3px;width:13px;height:13px;border-radius:50%;background:#2a2d73;border:2px solid #5a5ec0;transform:translateX(-50%);transition:.3s}
-#track .n.d{background:var(--lamp);border-color:var(--lamp);box-shadow:0 0 12px var(--lamp)}
-#run{position:absolute;bottom:14px;width:20px;transition:left .8s cubic-bezier(.4,1.5,.5,1)}
-#bar{height:6px;background:#1e2160;border-radius:9px;overflow:hidden;margin-bottom:14px}#bar i{display:block;height:100%;width:100%;background:var(--lamp)}
-#q{padding:0;overflow:hidden}
-#pic{background:linear-gradient(#1b1f4b,#262a6b);padding:12px 0 0}#pic svg{display:block;width:min(100%,260px);margin:0 auto}
-#qb{padding:18px 20px 20px}#qn{font-size:.85rem;color:#5b5e8f;font-weight:700}
-#pr{font:800 1.3rem/1.3 "Bricolage Grotesque",sans-serif;margin:6px 0 16px}
-.opt{display:flex;gap:12px;align-items:center;width:100%;text-align:left;font:700 1rem "DM Sans",sans-serif;color:var(--ink);background:#fff;border:2px solid var(--line);border-bottom-width:5px;border-radius:14px;padding:11px 14px;margin-bottom:9px;cursor:pointer;transition:.12s}
-.opt b{flex:none;width:28px;height:28px;border-radius:8px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:.85rem}
-.opt:hover:not(:disabled){border-color:var(--ink);transform:translateY(-2px)}
-.opt.ok{background:#d3f8e6;border-color:#1fa86c}.opt.no{background:#ffdbe6;border-color:var(--pink)}
-.slot{min-height:56px;border:2px dashed #9b98d6;border-radius:14px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;background:#fff}
-.pool{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.tk{font:700 1rem "DM Sans",sans-serif;background:var(--ink);color:var(--paper);border:0;border-radius:9px;padding:8px 13px;cursor:pointer}
-input.ty{width:100%;font:700 1.25rem "DM Sans",sans-serif;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink);margin-bottom:12px}
-#fb{display:none;margin-top:12px;padding:14px 16px;border-radius:14px;border-left:6px solid var(--mint);background:#ecebff}
-#fb.bad{border-color:var(--pink)}#fb.on{display:block;animation:up .3s}
-@keyframes up{from{transform:translateY(10px);opacity:0}}
-#fb h2{font-size:1.15rem}#ft{margin:2px 0 12px}
-.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-#end .sheet{text-align:center}#end h2{font-size:2rem;margin:4px 0 6px}
-#stars{font-size:2.6rem;color:var(--lamp);letter-spacing:6px;-webkit-text-stroke:1px #b88400}
-.rv{text-align:left;margin:16px 0;max-height:250px;overflow:auto;font-size:.92rem}.rv div{padding:8px 2px;border-bottom:1px solid var(--line)}
-.rv em{font-style:normal;font-weight:700;margin-right:6px;color:#1fa86c}.rv em.x{color:#d6285f}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style></head><body><div id="app">
+.row>*{flex:1 1 150px}
 
-<section id="home" class="scr on">
-<h1 class="d">Town Dash<small>Places in the Community</small></h1>
-<p>It is getting dark and the street lamps are still off. Answer at each of the 40 stops to light the way home. Five mistakes and the shops close.</p>
-<div class="belt"><div id="belt"></div></div>
-<div class="row"><button class="btn" id="go">Start walking</button><button class="btn ghost" id="lr">Study the shops first</button></div>
-</section>
+.card{background:#fff;border:3px solid var(--ink);border-radius:24px;box-shadow:0 7px 0 var(--ink);padding:20px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.back{background:none;border:0;font-family:var(--font-d);font-weight:800;font-size:1.1rem;cursor:pointer;color:var(--ink);padding:6px 0;margin-bottom:8px}
 
-<section id="learn" class="scr"><div class="sheet">
-<h2>Know the street</h2><p>Remember the pattern: <b>I am going to the ___ to ___.</b></p>
-<div class="grid" id="lg"></div>
-<div class="row"><button class="btn" id="go2">I’m ready</button><button class="btn ghost" id="bk">Back</button></div></div></section>
+/* home */
+.hero{text-align:center;padding:10px 0 18px}
+.kicker{font-family:var(--font-d);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.95rem;color:var(--blue-d)}
+.logo{font-size:clamp(3.2rem,16vw,6rem);font-weight:800;letter-spacing:.02em;margin-top:4px;
+  -webkit-text-stroke:7px var(--ink);paint-order:stroke fill;text-shadow:0 7px 0 var(--ink);color:var(--sun)}
+.logo span{display:block}
+.logo .l2{color:var(--coral)}
+.sub{margin-top:14px;font-size:1.05rem;color:var(--ink-soft);max-width:30em;margin-inline:auto}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 20px}
+@media(min-width:600px){.tiles{grid-template-columns:repeat(6,1fr)}}
+.tile-h{background:var(--tile);border:3px solid var(--ink);border-radius:18px;padding:8px 6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-family:var(--font-d);font-weight:700;font-size:.95rem;line-height:1.1;text-align:center;box-shadow:0 4px 0 var(--ink);transition:transform .12s}
+.tile-h:hover{transform:translateY(-3px) rotate(-1.5deg)}
+.tile-h .ic{width:62px;height:62px;animation:bob 2.6s ease-in-out infinite}
+.tile-h:nth-child(2n) .ic{animation-delay:-.8s}.tile-h:nth-child(3n) .ic{animation-delay:-1.5s}
+@keyframes bob{50%{transform:translateY(-5px)}}
+label{font-family:var(--font-d);font-weight:800;font-size:1.1rem}
+input[type=text]{width:100%;font:800 1.3rem var(--font-b);padding:.7rem 1rem;border:3px solid var(--ink);border-radius:16px;background:#f4f9ff;color:var(--ink);margin-top:6px}
+.top h3{font-size:1.3rem;margin-bottom:8px}
+.toplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;counter-reset:r}
+.toplist li{display:flex;align-items:center;gap:10px;background:#f4f9ff;border:2px solid #cdd9ee;border-radius:12px;padding:6px 12px;counter-increment:r}
+.toplist li::before{content:counter(r);font-family:var(--font-d);font-weight:800;width:26px;height:26px;border-radius:50%;background:var(--sun);border:2px solid var(--ink);display:grid;place-items:center;font-size:.9rem;flex:none}
+.toplist li.me{background:#fff6d6;border-color:var(--sun)}
+.toplist .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toplist .sc{font-family:var(--font-d);font-weight:800;font-variant-numeric:tabular-nums}
+.foot{text-align:center;margin-top:22px;font-size:.9rem;color:var(--ink-soft)}
 
-<section id="game" class="scr">
-<div id="top"><span id="hp"></span><span id="sc"></span><span id="sk"></span></div>
-<div id="track"></div><div id="bar"><i id="bi"></i></div>
-<div class="sheet" id="q"><div id="pic"></div><div id="qb"><div id="qn"></div><div id="pr"></div><div id="ans"></div>
-<div id="fb"><h2 id="fh"></h2><div id="ft"></div><button class="btn" id="nx" style="background:var(--ink);color:var(--paper);border-color:var(--ink)">Next stop</button></div></div></div>
-</section>
+/* learn / how */
+.sec-title{font-size:1.6rem;margin:18px 0 10px}
+.hgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:600px){.hgrid{grid-template-columns:repeat(3,1fr)}}
+.hcard{background:var(--tile);border:3px solid var(--ink);border-radius:20px;padding:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 5px 0 var(--ink);transition:transform .1s}
+.hcard:hover{transform:translateY(-3px)}
+.hcard:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.hcard .ic{width:92px;height:92px}
+.hcard b{font-family:var(--font-d);font-size:1.3rem;display:flex;align-items:center;gap:8px}
+.hcard b svg{width:20px;height:20px}
+.gcards{display:grid;gap:12px}
+@media(min-width:600px){.gcards{grid-template-columns:repeat(3,1fr)}}
+.gcard{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:14px;border:3px solid var(--ink);border-radius:20px;background:#fff;box-shadow:0 5px 0 var(--ink)}
+.gcard p{font-family:var(--font-d);font-weight:700;font-size:1.25rem;line-height:1.25}
+mark{background:var(--sun);color:var(--ink);border-radius:8px;padding:0 .3em;border:2px solid var(--ink)}
+.rules{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.rules span{background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.25rem .9rem;font-family:var(--font-d);font-weight:700}
+.steps{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px;counter-reset:s}
+.steps li{display:flex;gap:14px;align-items:flex-start;counter-increment:s}
+.steps li::before{content:counter(s);flex:none;width:40px;height:40px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);display:grid;place-items:center;font-family:var(--font-d);font-weight:800;font-size:1.2rem}
 
-<section id="end" class="scr"><div class="sheet">
-<div id="stars"></div><h2 id="et"></h2><p id="es"></p>
-<div class="rv" id="rv"></div>
-<div class="row" style="justify-content:center"><button class="btn" id="again" style="background:var(--ink);color:var(--paper);border-color:var(--ink)">Walk again</button><button class="btn ghost" id="menu">Main menu</button></div></div></section>
+/* HUD + track */
+.hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--font-d);font-weight:800;color:#fff;border:3px solid var(--ink);border-radius:999px;padding:.15rem .9rem;font-size:1rem;background:var(--blue)}
+.qn{font-family:var(--font-d);font-weight:800;font-size:1.1rem;margin-left:auto;font-variant-numeric:tabular-nums}
+.score{font-family:var(--font-d);font-weight:800;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.1rem .9rem;font-variant-numeric:tabular-nums;display:flex;gap:6px;align-items:center}
+.score small{font-size:.75rem;letter-spacing:.08em;color:var(--ink-soft)}
+.score.pop{animation:pop .4s}
+@keyframes pop{40%{transform:scale(1.25)}}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:3px solid var(--ink);background:#fff;cursor:pointer;display:grid;place-items:center;padding:0;font-family:var(--font-d);font-weight:800}
+.icon-btn svg{width:22px;height:22px}
+.track{position:relative;height:100px;margin:6px 0 16px}
+.road{position:absolute;left:0;right:0;bottom:12px;height:30px;border:3px solid var(--ink);border-radius:999px;box-shadow:0 4px 0 var(--ink)}
+.node{position:absolute;bottom:20px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#fff;border:2.5px solid var(--ink);transition:transform .25s,background .25s}
+.node.cur{transform:scale(1.5)}
+.node.got{background:var(--sun)}
+.node.miss{background:#cdd6e6}
+.flag{position:absolute;right:-6px;bottom:14px;width:30px;height:50px}
+.runner{position:absolute;bottom:36px;width:42px;margin-left:-21px;left:2.5%;transition:left .75s cubic-bezier(.3,.8,.3,1);z-index:2}
+.rin{width:42px;height:49px}
+.rin.hop{animation:hop .75s}
+.rin.stumble{animation:stumble .75s}
+@keyframes hop{30%{transform:translateY(-22px) rotate(-8deg)}60%{transform:translateY(-6px) rotate(6deg)}}
+@keyframes stumble{20%{transform:rotate(-18deg)}45%{transform:rotate(14deg)}70%{transform:rotate(-6deg)}}
+
+/* question */
+.stage{padding:18px}
+.timer{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tbar{flex:1;height:16px;background:#e4ebf7;border:3px solid var(--ink);border-radius:999px;overflow:hidden}
+.tbar i{display:block;height:100%;background:var(--leaf);transform-origin:left;transform:scaleX(1)}
+.tbar.low i{background:var(--coral)}
+#tsec{font-family:var(--font-d);font-weight:800;width:2.2ch;text-align:right;font-variant-numeric:tabular-nums}
+.qlabel{font-family:var(--font-d);font-weight:800;font-size:1.15rem;color:var(--ink-soft);text-align:center;margin-bottom:10px}
+.figure{width:min(170px,100%);aspect-ratio:1;margin:0 auto 16px;background:var(--tile);border:3px solid var(--ink);border-radius:28px;padding:14px;box-shadow:0 5px 0 var(--ink)}
+.figure svg{width:100%;height:100%}
+.bigword{display:flex;align-items:center;justify-content:center;gap:12px;margin:4px 0 16px;font-family:var(--font-d);font-weight:800;font-size:clamp(1.9rem,8vw,2.6rem);text-align:center}
+.say{width:48px;height:48px;border-radius:50%;border:3px solid var(--ink);background:var(--sun);cursor:pointer;display:grid;place-items:center;padding:0;flex:none;box-shadow:0 3px 0 var(--ink);color:var(--ink)}
+.say svg{width:24px;height:24px}
+.scene{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 auto 14px}
+.scene .who,.scene .hb{width:min(104px,26vw);aspect-ratio:1}
+.scene .who svg,.scene .hb svg{width:100%;height:100%;overflow:visible}
+.scene .hb{background:var(--tile);border:3px solid var(--ink);border-radius:24px;padding:9px;box-shadow:0 4px 0 var(--ink)}
+.scene .mid{width:40px;height:40px;display:grid;place-items:center}
+.scene .mid svg{width:100%;height:100%;animation:beat 1.2s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.18)}}
+.qm{font-family:var(--font-d);font-weight:800;font-size:2.4rem;color:var(--grape)}
+.sentence{text-align:center;font-family:var(--font-d);font-weight:800;font-size:clamp(1.5rem,6.4vw,2.1rem);line-height:1.25;margin-bottom:18px;text-wrap:balance}
+.blank{display:inline-block;min-width:3.4ch;border-bottom:5px dashed var(--ink);color:var(--blue-d);text-align:center;padding:0 .25em;margin:0 .1em}
+.blank.ok{color:var(--leaf-d);border-bottom-style:solid}
+.blank.bad{color:var(--coral-d);border-bottom-style:solid}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opts.one{grid-template-columns:1fr}
+.opt{position:relative;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:.6rem .8rem;min-height:66px;cursor:pointer;box-shadow:0 5px 0 var(--ink);
+  font-family:var(--font-d);font-weight:800;font-size:clamp(1.15rem,4.8vw,1.5rem);line-height:1.15;transition:transform .08s,box-shadow .08s,background .15s;display:flex;align-items:center;justify-content:center;text-align:center}
+.opt b{position:absolute;left:8px;top:6px;font-size:.7rem;width:20px;height:20px;border-radius:6px;background:#eaf1fb;color:var(--ink-soft);display:grid;place-items:center}
+.opt:hover:not([disabled]){transform:translateY(-2px);box-shadow:0 7px 0 var(--ink);background:#f4f9ff}
+.opt:active:not([disabled]){transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.opt[disabled]{cursor:default}
+.opt.correct{background:#c8f5dc;border-color:var(--leaf-d);box-shadow:0 5px 0 var(--leaf-d)}
+.opt.wrong{background:#ffd9d4;border-color:var(--coral-d);box-shadow:0 5px 0 var(--coral-d);animation:shake .4s}
+.opt.dim{opacity:.55}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.opts.pics .opt{aspect-ratio:1;max-width:100%;padding:12px;background:var(--tile)}
+.opts.pics .opt svg{width:100%;height:100%}
+.opts.pics .opt:hover:not([disabled]){background:var(--tile)}
+.slots{min-height:68px;border:3px dashed #9db4dc;border-radius:18px;padding:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#f4f9ff;margin-bottom:14px}
+.slots .tile,.bank .tile{min-width:44px}
+.slots.ok{border-color:var(--leaf-d);border-style:solid;background:#e6faf0}
+.slots.bad{border-color:var(--coral-d);border-style:solid;background:#fff0ee}
+.ph{width:46px;height:42px;border-radius:12px;background:#e1eaf7}
+.bank{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;min-height:48px}
+.tile{font-family:var(--font-d);font-weight:800;font-size:1.3rem;border:3px solid var(--ink);border-radius:14px;background:#fff;padding:.4rem .9rem;box-shadow:0 4px 0 var(--ink);cursor:pointer;animation:tin .18s}
+.tile.placed{background:#fff6d6}
+.tile[disabled]{cursor:default}
+@keyframes tin{from{transform:scale(.85)}}
+.fb{margin-top:18px;border:3px solid var(--leaf-d);background:#e6faf0;border-radius:20px;padding:14px 16px;animation:rise .3s}
+.fb.no{border-color:var(--coral-d);background:#fff0ee}
+@keyframes rise{from{transform:translateY(12px);opacity:0}}
+.fbhead{display:flex;align-items:center;gap:10px;font-family:var(--font-d);font-size:1.5rem;font-weight:800}
+.fbicon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:3px solid var(--ink);background:var(--leaf);flex:none}
+.fb.no .fbicon{background:var(--coral)}
+.fbicon svg{width:20px;height:20px}
+.pts{margin-left:8px;background:var(--sun);border:3px solid var(--ink);border-radius:999px;padding:0 .6rem;font-size:1.05rem}
+.fbtip{margin:8px 0 12px;font-size:1.05rem}
+.fbbtns{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.fbbtns .btn{min-width:130px}
+
+/* intro */
+.intro{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.intro .chip{font-size:1.1rem}
+.intro h2{font-size:clamp(2rem,9vw,2.8rem)}
+.intro .ex{display:flex;flex-direction:column;gap:6px;font-family:var(--font-d);font-weight:700;font-size:1.3rem}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:420px}
+.mini div{background:var(--tile);border:3px solid var(--ink);border-radius:14px;padding:6px;font-family:var(--font-d);font-weight:700;font-size:.85rem;line-height:1.1}
+.mini svg{width:46px;height:46px;margin:0 auto 2px}
+
+/* result */
+.res{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.stars{display:flex;gap:6px;justify-content:center}
+.stars svg{width:84px;height:84px;transform:scale(0);animation:starin .5s forwards cubic-bezier(.3,1.6,.5,1)}
+.stars svg:nth-child(2){width:104px;height:104px;margin-top:-14px;animation-delay:.25s}
+.stars svg:nth-child(3){animation-delay:.5s}
+@keyframes starin{to{transform:scale(1)}}
+.res h2{font-size:clamp(2rem,9vw,2.9rem)}
+.bigscore{font-family:var(--font-d);font-weight:800;font-size:3.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.bigscore small{display:block;font-size:1rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase}
+.sbs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:100%}
+@media(min-width:560px){.sbs{grid-template-columns:repeat(4,1fr)}}
+.sb{border:3px solid var(--ink);border-radius:16px;background:#fff;padding:8px 6px;display:flex;flex-direction:column;gap:2px;box-shadow:0 4px 0 var(--c)}
+.sb b{font-family:var(--font-d);font-size:1.6rem;color:var(--c);line-height:1}
+.sb span{font-size:.85rem;line-height:1.15}
+details{width:100%;text-align:left;background:#f4f9ff;border:3px solid var(--ink);border-radius:16px;padding:10px 14px}
+summary{font-family:var(--font-d);font-weight:800;font-size:1.15rem;cursor:pointer}
+.rev{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.rev li{background:#fff;border:2px solid #cdd9ee;border-radius:12px;padding:8px 12px;font-size:.98rem}
+.rev li.ok{border-left:8px solid var(--leaf)}
+.rev li.no{border-left:8px solid var(--coral)}
+.rev small{display:block;color:var(--ink-soft)}
+.rev em{font-style:normal;color:var(--leaf-d)}
+.res .top{width:100%;text-align:left}
+#confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+#confetti i{position:absolute;top:-20px;width:10px;height:16px;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .stars svg{transform:scale(1)}
+}
+</style>
+
+<div class="sky" aria-hidden="true">
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+  <svg class="hills" viewBox="0 0 800 160" preserveAspectRatio="none"><path d="M0 100C120 40 240 40 360 90S600 130 800 60V160H0Z" fill="#b9e8a8"/><path d="M0 130C160 80 300 90 440 120S700 140 800 110V160H0Z" fill="#9ddb8b"/></svg>
 </div>
+<div id="confetti" aria-hidden="true"></div>
+
+<main class="app">
+
+<!-- HOME -->
+<section id="home" class="screen">
+  <header class="hero">
+    <p class="kicker">Vocabulary Game</p>
+    <h1 class="logo"><span>FUN</span><span class="l2">HOBBIES</span></h1>
+    <p class="sub">Run the race, answer 20 questions and collect all the stars!</p>
+  </header>
+  <div class="tiles" id="homeTiles"></div>
+  <div class="card stack">
+    <div>
+      <label for="name">What is your name?</label>
+      <input type="text" id="name" maxlength="16" placeholder="Type your name" autocomplete="off">
+    </div>
+    <button class="btn sun big" id="btnStart">Start the race</button>
+    <div class="row">
+      <button class="btn ghost" id="btnLearn">Learn the words</button>
+      <button class="btn ghost" id="btnHow">How to play</button>
+    </div>
+  </div>
+  <div class="card top" id="homeTop" hidden style="margin-top:18px"></div>
+  <p class="foot">English for Grade 3–4 · Hobbies, likes, do and does</p>
+</section>
+
+<!-- LEARN -->
+<section id="learn" class="screen" hidden>
+  <button class="back" data-go="home">← Back</button>
+  <h2 class="sec-title" style="margin-top:0">Hobby words</h2>
+  <p style="margin-bottom:12px">Tap a card to hear the word.</p>
+  <div class="hgrid" id="learnWords"></div>
+  <h2 class="sec-title">She likes · He likes · They like</h2>
+  <div class="gcards" id="learnLikes"></div>
+  <div class="rules"><span>He / She → likes</span><span>They → like</span></div>
+  <h2 class="sec-title">Do or Does?</h2>
+  <div class="gcards" id="learnDo"></div>
+  <div class="rules"><span>Does → he / she</span><span>Do → they</span><span>After do / does → like</span></div>
+  <h2 class="sec-title">Doesn't and don't</h2>
+  <div class="gcards" id="learnNo"></div>
+  <div class="rules"><span>He / She → doesn't</span><span>They → don't</span></div>
+  <div style="margin-top:24px"><button class="btn sun big" data-go="start">Start the race</button></div>
+</section>
+
+<!-- HOW TO PLAY -->
+<section id="howto" class="screen" hidden>
+  <button class="back" data-go="home">← Back</button>
+  <div class="card stack">
+    <h2>How to play</h2>
+    <ol class="steps">
+      <li><span>Run through <b>5 stages</b> with <b>20 questions</b>. Pip hops to the next coin after every answer. The last stage is the Boss Round!</span></li>
+      <li><span>Pick the right answer before the bar runs out. Quick answers get <b>bonus points</b>.</span></li>
+      <li><span>If you make a mistake, read the tip. It helps you next time.</span></li>
+      <li><span>Collect stars at the finish line. Can you get all <b>3 stars</b>?</span></li>
+    </ol>
+    <button class="btn sun big" data-go="start">Start the race</button>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="game" class="screen" hidden>
+  <div class="hud">
+    <span class="chip" id="stageChip"></span>
+    <span class="qn" id="qNum"></span>
+    <span class="score" id="scoreBox"><small>SCORE</small><span id="score">0</span></span>
+    <button class="icon-btn" id="btnMute" aria-label="Sound on or off"></button>
+    <button class="icon-btn" id="btnQuit" aria-label="Quit the game">✕</button>
+  </div>
+  <div class="track" id="track"></div>
+  <div class="card stage intro" id="intro" hidden></div>
+  <div class="card stage" id="qbox" hidden>
+    <div class="timer"><div class="tbar" id="tbar"><i id="tfill"></i></div><span id="tsec">25</span></div>
+    <div id="qmain"></div>
+    <div id="fb" class="fb" hidden role="status" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result" class="screen" hidden>
+  <div class="card res" id="resCard"></div>
+</section>
+
+</main>
+
 <script>
-const P=[['school','to study'],['bank','to save money'],['supermarket','to buy vegetables and milk'],['market','to buy fresh fish'],['mall','to buy new shoes'],['convenience store','to buy snacks and a drink'],['zoo','to see the animals'],['park','to jog and play'],['farm','to buy fresh eggs'],['bakery','to buy bread and cake'],['hair salon','to get a haircut'],['bookshop','to buy a storybook'],['toy store','to buy a robot']];
-const C=['#ff5d8f','#3ddc97','#5ec8ff','#ffa94d','#a78bfa','#ff7a59','#2fd0c4','#9be15d','#f472b6','#fbbf24','#6aa8ff','#f87171','#c084fc'];
-function shop(i,label){const c=C[i%13],r=i%3,y=r==1?50:60,h=r==1?110:100;let s=`<svg class="shop" viewBox="0 0 200 170"><rect x="0" y="160" width="200" height="10" fill="#181c52"/><rect x="20" y="${y}" width="160" height="${h}" rx="3" fill="${c}"/>`;
-s+=r==1?`<path d="M12 52L100 12L188 52Z" fill="#0b1030" opacity=".6"/>`:r==2?`<rect x="74" y="22" width="52" height="44" fill="${c}"/><rect x="68" y="14" width="64" height="9" fill="#0b1030" opacity=".6"/>`:`<rect x="12" y="52" width="176" height="10" fill="#0b1030" opacity=".6"/>`;
-for(let k=0;k<8;k++)s+=`<rect x="${20+k*20}" y="100" width="20" height="16" fill="${k%2?'#f4f2ff':'#0b1030'}" opacity="${k%2?1:.55}"/>`;
-s+=`<rect x="38" y="68" width="124" height="26" rx="5" fill="#0b1030"/><text class="sg" x="100" y="86" text-anchor="middle" font-size="${label.length>9?12:15}">${label}</text>`;
-s+=`<rect x="32" y="124" width="36" height="26" rx="2" fill="#ffe9a8"/><rect x="132" y="124" width="36" height="26" rx="2" fill="#ffe9a8" opacity=".85"/><rect x="50" y="124" width="1.5" height="26" fill="${c}"/><rect x="150" y="124" width="1.5" height="26" fill="${c}"/><rect x="86" y="122" width="28" height="38" rx="3" fill="#0b1030"/><circle cx="107" cy="142" r="2" fill="#ffcf5c"/></svg>`;return s}
-const bubble=m=>`<svg class="shop" viewBox="0 0 200 170"><path d="M30 24h140a10 10 0 0 1 10 10v74a10 10 0 0 1-10 10H92l-30 28v-28H30a10 10 0 0 1-10-10V34a10 10 0 0 1 10-10z" fill="#f4f2ff"/><text x="100" y="92" text-anchor="middle" font-size="56" font-weight="800" font-family="Bricolage Grotesque,sans-serif" fill="#14183a">${m}</text></svg>`;
-const Q=[
-{s:1,p:'You keep and save your money here. Which place is it?',o:['bank','bakery','bookshop','school'],a:0,e:'We save money at the bank.'},
-{s:9,p:'I am going to the ___ to buy bread and cake.',o:['farm','bakery','zoo','park'],a:1,e:'Bread and cake come from the bakery.'},
-{k:'o',s:2,p:'Build the sentence:',a:'I am going to the supermarket to buy some milk',e:'Pattern: I am going to the + place + to buy + thing.'},
-{s:10,p:'“Where are you going?” Choose the best answer.',o:['I am going to the hair salon to get a haircut.','I going to hair salon for cut hair.','I am go to the hair salon to haircut.','I am going hair salon to get haircut.'],a:0,e:'Use am going + to the + place, then to + verb.'},
-{k:'t',s:6,p:'Lions, monkeys and elephants live here. Type the place (one word).',a:['zoo'],e:'We go to the zoo to see the animals.'},
-{s:4,p:'It is one very big building with many shops, a food court and a cinema. Where is it?',o:['market','convenience store','mall','farm'],a:2,e:'A mall has many shops under one roof.'},
-{s:5,p:'Mia is thirsty at 11 p.m. She needs a snack and a drink from a small shop that is open 24 hours. Where does she go?',o:['supermarket','convenience store','bookshop','bank'],a:1,e:'A convenience store is small and often open all night.'},
-{s:12,p:'Dino is going to the ___ to buy a robot and a doll.',o:['toy store','bakery','hair salon','school'],a:0,e:'Toys are sold at the toy store.'},
-{k:'o',s:11,p:'Build the sentence:',a:'She is going to the bookshop to buy a novel',e:'With she, use is going. Not am going.'},
-{s:-1,m:'“ ”',p:'“Excuse me, where is the bank?” Choose the polite and correct reply.',o:['It is next to the school.','Yes, I am going bank.','I buy a bank.','The bank are at me.'],a:0,e:'Give directions with is + next to / near / behind.'},
-{k:'t',s:3,p:'People sell fresh vegetables and fish in stalls here. You can bargain! Type the place (one word).',a:['market','traditional market'],e:'The market has stalls, and we can bargain there.'},
-{s:-1,m:'?',p:'Odd one out: which place is NOT used for buying things?',o:['bakery','park','toy store','bookshop'],a:1,e:'We go to the park to relax and play, not to buy.'},
-{s:0,p:'I am going to the ___ to study with my friends.',o:['school','bakery','mall','market'],a:0,e:'We study at school.'},
-{s:8,p:'Farmers grow rice and raise cows and chickens here. Where is it?',o:['farm','park','zoo','market'],a:0,e:'A farm is where farmers grow crops and raise animals.'},
-{k:'o',s:7,p:'Build the sentence:',a:'We are going to the park to play football',e:'With we, use are going.'},
-{s:2,p:'Which sentence is correct?',o:['My mother is going to the supermarket to buy vegetables.','My mother are going to the supermarket to buy vegetables.','My mother going to supermarket buy vegetables.','My mother is go to the supermarket to buy vegetables.'],a:0,e:'My mother = she, so we use is going.'},
-{k:'t',s:9,p:'You can smell fresh bread and cakes here. Type the place (one word).',a:['bakery'],e:'We buy bread and cake at the bakery.'},
-{s:-1,m:'“ ”',p:'“Excuse me, is there a bookshop near here?” Choose the best reply.',o:['Yes, there is. It is across from the park.','Yes, I am bookshop.','No, I buy a book.','It is going to the bookshop.'],a:0,e:'Answer Is there...? with Yes, there is / No, there is not.'},
-{s:10,p:'Rina has very long hair and wants to cut it. Where is she going?',o:['bank','hair salon','farm','zoo'],a:1,e:'We get a haircut at the hair salon.'},
-{k:'o',s:12,p:'Build the sentence:',a:'They are going to the toy store to buy a puzzle',e:'They + are going + to the toy store + to buy.'},
-{s:3,p:'In which place can you usually bargain with the seller?',o:['supermarket','mall','bank','market'],a:3,e:'At a traditional market, prices are often not fixed.'},
-{s:-1,m:'?',p:'Which sentence uses “to” for purpose correctly?',o:['I go to the bank to withdraw money.','I go to the bank for withdraw money.','I go to bank to withdrawing money.','I go to the bank to withdrawal money.'],a:0,e:'to + base verb shows purpose: to withdraw.'},
-{k:'t',s:12,p:'Children buy dolls, robots and puzzles here. Type the place (two words).',a:['toy store','toy shop'],e:'Toys are sold at the toy store.'},
-{s:4,p:'Dad and I are going to the ___ to watch a movie and buy new shoes.',o:['mall','farm','bakery','bank'],a:0,e:'A mall has a cinema and many shops.'},
-{s:2,p:'Budi has a list: rice, eggs, cooking oil and soap. He wants to buy everything in one place. Where should he go?',o:['supermarket','bakery','toy store','zoo'],a:0,e:'A supermarket sells many kinds of goods under one roof.'},
-{s:11,p:'Sinta needs a dictionary and a notebook. “I am going to the ___ to buy them.”',o:['bookshop','bakery','hair salon','zoo'],a:0,e:'Books and stationery are sold at the bookshop.'},
-{k:'o',s:1,p:'Build the sentence:',a:'My father is going to the bank to save money',e:'My father = he, so we use is going.'},
-{s:-1,m:'?',p:'Find the mistake: “I am going to the bakery for buy some bread.”',o:['for buy → to buy','am going → is going','the bakery → bakery','some bread → bread some'],a:0,e:'For purpose we say to + base verb: to buy.'},
-{s:-1,m:'“ ”',p:'Shopkeeper: “May I help you?” You want a notebook. Choose the best reply.',o:['Yes, please. I would like to buy a notebook.','Yes, I am a notebook.','No, I go notebook.','The notebook is going to me.'],a:0,e:'Use I would like to buy... to ask politely.'},
-{k:'t',s:7,p:'Children play on swings and slides here, and people jog under the trees. Type the place (one word).',a:['park'],e:'We go to the park to jog and play.'},
-{s:8,p:'I have cows, chickens and rice fields. I am not a zoo. What am I?',o:['farm','park','market','mall'],a:0,e:'A farm is where food is grown and animals are raised.'},
-{k:'o',s:5,p:'Build the sentence:',a:'We are going to the convenience store to buy a drink',e:'We + are going + to the + place + to buy.'},
-{s:-1,m:'?',p:'Which pair is matched correctly?',o:['bank – save money','zoo – buy bread','hair salon – watch animals','bookshop – get a haircut'],a:0,e:'We save money at the bank.'},
-{s:6,p:'Which sentence is correct?',o:['We are going to the zoo to see the animals.','We are going to zoo for see animals.','We going to the zoo to seeing animals.','We are go to the zoo to see animals.'],a:0,e:'are going + to the zoo + to see.'},
-{k:'t',s:11,p:'You can buy novels, comics and dictionaries here. Type the place (one word).',a:['bookshop','bookstore','book shop'],e:'Books are sold at the bookshop.'},
-{s:-1,m:'“ ”',p:'“Where is the hair salon?” – “It is ___ the bank and the bakery.” Choose the best word.',o:['between','to','for','of'],a:0,e:'We say between X and Y.'},
-{s:3,p:'Ibu goes to the market early in the morning, not to the mall. Why?',o:['Fresh food is cheap there and she can bargain.','The market has a cinema.','The market is a school.','The mall sells only books.'],a:0,e:'Markets sell fresh food and prices can be negotiated.'},
-{k:'o',s:10,p:'Build the sentence:',a:'My sister is going to the hair salon to wash her hair',e:'My sister = she, so we use is going.'},
-{s:12,p:'Dika: “I want to buy a birthday present for my little brother.” Which is the best place?',o:['toy store','bank','school','farm'],a:0,e:'A toy store is a good place for a child’s present.'},
-{s:4,p:'A mall is different from a market because ___.',o:['a mall is a big building with many shops and fixed prices','a mall is where farmers grow rice','a mall is only for saving money','a mall sells only fish in stalls'],a:0,e:'A mall is a large modern shopping building.'}];
-const $=i=>document.getElementById(i),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-let i,hp,sc,sk,log,tm,t0,lim,done,ac;
-function beep(f,d){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.07;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
-function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id==id));scrollTo(0,0)}
-const strip=P.map((p,n)=>shop(n,p[0])).join('');$('belt').innerHTML=strip+strip;
-$('lg').innerHTML=P.map((p,n)=>`<div class="pl">${shop(n,p[0])}<b>the ${p[0]}</b><i>I am going to the ${p[0]} ${p[1]}.</i></div>`).join('');
-$('lr').onclick=()=>show('learn');$('bk').onclick=()=>show('home');$('go').onclick=$('go2').onclick=$('again').onclick=start;$('menu').onclick=()=>show('home');
-function start(){i=0;hp=5;sc=0;sk=0;log=[];$('track').innerHTML=Q.map((q,n)=>`<span class="n" style="left:${n/(Q.length-1)*100}%"></span>`).join('')+'<svg id="run" viewBox="0 0 20 28"><circle cx="10" cy="5" r="4" fill="#ffcf5c"/><path d="M10 10v9M10 12l-5 5M10 12l5 5M10 19l-4 8M10 19l4 8" stroke="#ffcf5c" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg>';show('game');render()}
-function hud(){$('hp').innerHTML=[0,1,2,3,4].map(n=>`<span class="${n<hp?'':'x'}">♥</span>`).join('');$('sc').textContent=sc;$('sk').textContent=sk>1?'streak '+sk:'';
-const ns=[...document.querySelectorAll('#track .n')];ns.forEach((x,n)=>x.classList.toggle('d',n<i));const t=$('track');$('run').style.left=(i/(Q.length-1)*t.clientWidth-10)+'px'}
-function render(){const q=Q[i];done=false;clearInterval(tm);$('fb').classList.remove('on','bad');hud();
-$('pic').innerHTML=q.s>=0?shop(q.s,'?'):bubble(q.m);
-$('qn').textContent=`Stop ${i+1} of ${Q.length}`+(q.k=='o'?' · build the sentence':q.k=='t'?' · type the answer':'');$('pr').textContent=q.p;const A=$('ans');A.innerHTML='';lim=q.k?45:25;
-if(!q.k){sh(q.o.map((t,n)=>[t,n])).forEach(([t,n],k)=>{const b=document.createElement('button');b.className='opt';b.innerHTML=`<b>${'ABCD'[k]}</b>`;b.append(t);b.onclick=()=>fin(n==q.a,b);b.dataset.c=n==q.a?1:0;A.appendChild(b)})}
-else if(q.k=='o'){const s=document.createElement('div');s.className='slot';const pool=document.createElement('div');pool.className='pool';A.append(s,pool);
-sh(q.a.split(' ')).forEach(w=>{const b=document.createElement('button');b.className='tk';b.textContent=w;b.onclick=()=>{if(!done)(b.parentNode==pool?s:pool).appendChild(b)};pool.appendChild(b)});
-const c=document.createElement('button');c.className='btn';c.textContent='Check';c.onclick=()=>{if(!done)fin([...s.children].map(x=>x.textContent).join(' ')==q.a)};A.appendChild(c)}
-else{const inp=document.createElement('input');inp.className='ty';inp.placeholder='Type here…';inp.autocomplete='off';const c=document.createElement('button');c.className='btn';c.textContent='Check';
-const go=()=>{if(!done)fin(q.a.includes(inp.value.trim().toLowerCase()))};c.onclick=go;inp.onkeydown=e=>{if(e.key=='Enter')go()};A.append(inp,c);setTimeout(()=>inp.focus(),50)}
-t0=Date.now();tm=setInterval(()=>{const l=lim-(Date.now()-t0)/1000;$('bi').style.width=Math.max(0,l/lim*100)+'%';$('bi').style.background=l<8?'var(--pink)':'var(--lamp)';if(l<=0)fin(false,null,true)},100)}
-function fin(ok,el,late){if(done)return;done=true;clearInterval(tm);const q=Q[i],left=Math.max(0,lim-(Date.now()-t0)/1000);
-document.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.dataset.c==1)b.classList.add('ok');else if(b===el)b.classList.add('no')});
-document.querySelectorAll('#ans .tk,#ans .btn,#ans input').forEach(x=>x.disabled=true);
-if(q.s>=0){const t=$('pic').querySelector('text.sg');t.textContent=P[q.s][0];t.setAttribute('font-size',P[q.s][0].length>9?12:15)}
-let g=0;if(ok){sk++;g=100+Math.round(left*3)+(sk>1?(sk-1)*20:0);sc+=g;beep(660,.12);setTimeout(()=>beep(880,.15),110)}else{sk=0;hp--;beep(180,.3);$('ans').classList.add('shake');setTimeout(()=>$('ans').classList.remove('shake'),400)}
-log.push({q,ok});$('fb').classList.toggle('bad',!ok);
-$('fh').textContent=ok?`Correct, +${g}`:late?'Time ran out':'Not this time';
-$('ft').textContent=(!ok&&q.k=='o'?'Answer: '+q.a+'. ':!ok&&q.k=='t'?'Answer: '+q.a[0]+'. ':'')+q.e;
-$('nx').textContent=hp<=0||i==Q.length-1?'See results':'Next stop';$('fb').classList.add('on');hud()}
-$('nx').onclick=()=>{if(hp<=0||i==Q.length-1)end();else{i++;render()}};
-function end(){const n=log.filter(l=>l.ok).length,win=hp>0&&log.length==Q.length;
-$('et').textContent=win?'Every lamp on the street is lit.':'The shops closed early.';
-const r=n/Q.length,st=r>=.9?3:r>=.7?2:r>=.45?1:0;$('stars').textContent='★'.repeat(st)+'☆'.repeat(3-st);
-$('es').textContent=`${n} of ${Q.length} correct · ${sc} points`;
-$('rv').innerHTML=log.map(l=>`<div><em class="${l.ok?'':'x'}">${l.ok?'✓':'✗'}</em>${l.q.p}${l.ok?'':' <b>→ '+(l.q.k=='o'?l.q.a:l.q.k=='t'?l.q.a[0]:l.q.o[l.q.a])+'</b>'}</div>`).join('');show('end')}
-</script></body></html>
+(function(){
+'use strict';
+var K='#1d2b4f';
+var $=function(s){return document.querySelector(s);};
+var rnd=function(n){return Math.floor(Math.random()*n);};
+var shuffle=function(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=rnd(i+1);var t=a[i];a[i]=a[j];a[j]=t;}return a;};
+var pick=function(a,n){return shuffle(a).slice(0,n||1);};
+var cap=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+
+/* ---------- data ---------- */
+var HOB=[
+  {id:'cooking',  word:'cooking',       bg:'#ffe3da'},
+  {id:'reading',  word:'reading books', bg:'#dbe9ff'},
+  {id:'drawing',  word:'drawing',       bg:'#d6f5e5'},
+  {id:'painting', word:'painting',      bg:'#e8defd'},
+  {id:'games',    word:'playing games', bg:'#d2f4f7'},
+  {id:'puzzles',  word:'doing puzzles', bg:'#ffeccb'}
+];
+var byId={};HOB.forEach(function(h){byId[h.id]=h;});
+
+var ICON={
+cooking:'<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#9db4dc" stroke-width="4" stroke-linecap="round"><path d="M34 38c-5-6 5-10 0-18"/><path d="M50 38c-5-6 5-10 0-18"/><path d="M66 38c-5-6 5-10 0-18"/></g><g stroke="'+K+'" stroke-width="3" stroke-linejoin="round"><rect x="7" y="60" width="14" height="8" rx="4" fill="#ffa68e"/><rect x="79" y="60" width="14" height="8" rx="4" fill="#ffa68e"/><rect x="18" y="54" width="64" height="34" rx="10" fill="#ff7a59"/><rect x="14" y="44" width="72" height="13" rx="6.5" fill="#ffb7a3"/></g><path d="M30 66v12" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".6"/></svg>',
+reading:'<svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="'+K+'" stroke-width="3" stroke-linejoin="round"><path d="M50 32C38 22 22 22 10 28V78C22 72 38 72 50 82Z" fill="#fff"/><path d="M50 32C62 22 78 22 90 28V78C78 72 62 72 50 82Z" fill="#cfe1ff"/></g><path d="M18 40c8-2 18-1 26 3M18 52c8-2 18-1 26 3M18 64c8-2 18-1 26 3M56 43c8-4 18-5 26-3M56 55c8-4 18-5 26-3M56 67c8-4 18-5 26-3" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/><path d="M50 32V82" stroke="'+K+'" stroke-width="3"/></svg>',
+drawing:'<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="12" y="16" width="58" height="72" rx="7" fill="#fff" stroke="'+K+'" stroke-width="3"/><path d="M22 70c6-16 10 6 17-8s11 6 17-10" fill="none" stroke="#22b573" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="26" cy="32" r="6" fill="#ffc43d" stroke="'+K+'" stroke-width="2.5"/><g transform="rotate(35 70 50)" stroke="'+K+'" stroke-width="3" stroke-linejoin="round"><rect x="62" y="10" width="16" height="56" rx="3" fill="#ffc43d"/><rect x="62" y="10" width="16" height="11" rx="3" fill="#ff8fa3"/><path d="M62 66h16l-8 16z" fill="#ffe0b8"/><path d="M67 76h6l-3 6z" fill="'+K+'"/></g></svg>',
+painting:'<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 14C26 14 10 32 10 52c0 22 20 34 34 34 9 0 11-6 8-11-3-6 0-12 8-12h12c11 0 18-7 18-18C90 28 72 14 50 14Z" fill="#ffe3b3" stroke="'+K+'" stroke-width="3" stroke-linejoin="round"/><g stroke="'+K+'" stroke-width="2.5"><circle cx="30" cy="42" r="6.5" fill="#ff6b5b"/><circle cx="46" cy="29" r="6.5" fill="#ffc43d"/><circle cx="64" cy="31" r="6.5" fill="#2f8fff"/><circle cx="76" cy="46" r="6.5" fill="#22b573"/><circle cx="32" cy="64" r="6" fill="var(--tile,#fff)"/></g><g transform="translate(78 62) rotate(35)" stroke="'+K+'" stroke-width="2.5" stroke-linejoin="round"><rect x="-4" y="0" width="8" height="32" rx="4" fill="#8b5cf6"/><path d="M-5 0H5L3 -12Q0 -16 -3 -12Z" fill="#ff6b5b"/></g></svg>',
+games:'<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M26 34h48c10 0 17 8 20 22l3 14c1 8-9 12-15 6L70 66H30L18 76c-6 6-16 2-15-6l3-14c3-14 10-22 20-22Z" fill="#0fb5c4" stroke="'+K+'" stroke-width="3" stroke-linejoin="round"/><g fill="#fff" stroke="'+K+'" stroke-width="2"><rect x="24" y="45" width="20" height="7" rx="2"/><rect x="30.5" y="38.5" width="7" height="20" rx="2"/></g><circle cx="66" cy="44" r="4.5" fill="#ffc43d" stroke="'+K+'" stroke-width="2"/><circle cx="76" cy="52" r="4.5" fill="#ff6b5b" stroke="'+K+'" stroke-width="2"/></svg>',
+puzzles:'<svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="'+K+'" stroke-width="6" stroke-linejoin="round"><rect x="22" y="32" width="56" height="54" rx="6"/><circle cx="50" cy="28" r="10"/><circle cx="82" cy="58" r="10"/></g><g fill="#f59e0b"><rect x="22" y="32" width="56" height="54" rx="6"/><circle cx="50" cy="28" r="10"/><circle cx="82" cy="58" r="10"/></g><circle cx="22" cy="60" r="9" fill="var(--tile,#fff)"/><path d="M22 51A9 9 0 0 1 22 69" fill="none" stroke="'+K+'" stroke-width="3"/><path d="M36 46h26M36 76h18" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".55"/></svg>'
+};
+
+function pg(kind){
+  var shirt=kind==='she'?'#ff6b8a':'#2f8fff', hair='#3a2a24';
+  var tails=kind==='she'?'<circle cx="29" cy="48" r="8" fill="'+hair+'" stroke="'+K+'" stroke-width="2.5"/><circle cx="71" cy="48" r="8" fill="'+hair+'" stroke="'+K+'" stroke-width="2.5"/>':'';
+  var body='<path d="M18 98c0-20 14-30 32-30s32 10 32 30Z" fill="'+shirt+'" stroke="'+K+'" stroke-width="3"/>';
+  var head='<circle cx="50" cy="42" r="21" fill="#ffd2a1" stroke="'+K+'" stroke-width="3"/>';
+  var top=kind==='she'
+    ?'<path d="M29 40c0-16 9-24 21-24s21 8 21 24c-7-8-35-8-42 0Z" fill="'+hair+'" stroke="'+K+'" stroke-width="3" stroke-linejoin="round"/>'
+    :'<path d="M29 38c0-14 9-22 21-22s21 8 21 22c-9-6-33-6-42 0Z" fill="'+hair+'" stroke="'+K+'" stroke-width="3" stroke-linejoin="round"/>';
+  var face='<circle cx="42" cy="47" r="2.6" fill="'+K+'"/><circle cx="58" cy="47" r="2.6" fill="'+K+'"/><path d="M43 55q7 6 14 0" fill="none" stroke="'+K+'" stroke-width="3" stroke-linecap="round"/><circle cx="36" cy="54" r="3" fill="#ff9b8a" opacity=".6"/><circle cx="64" cy="54" r="3" fill="#ff9b8a" opacity=".6"/>';
+  return tails+body+head+top+face;
+}
+var PERSON={
+  she:'<svg viewBox="0 0 100 100" aria-hidden="true">'+pg('she')+'</svg>',
+  he:'<svg viewBox="0 0 100 100" aria-hidden="true">'+pg('he')+'</svg>',
+  they:'<svg viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(-3 22) scale(.56)">'+pg('she')+'</g><g transform="translate(47 22) scale(.56)">'+pg('he')+'</g></svg>'
+};
+var HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11Z" fill="#ff5a7a" stroke="'+K+'" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+var SPK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+var SPK_OFF='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+var TICK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var CROSS='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></svg>';
+var STAR='M12 2l2.9 6.1 6.7.8-5 4.6 1.3 6.6L12 16.7 6.1 20.1l1.3-6.6-5-4.6 6.7-.8z';
+var PIP='<svg viewBox="0 0 48 56" aria-hidden="true"><g fill="#2f8fff" stroke="'+K+'" stroke-width="2.5"><ellipse cx="16" cy="51" rx="7" ry="4"/><ellipse cx="32" cy="51" rx="7" ry="4"/></g><circle cx="24" cy="30" r="19" fill="#ff7a59" stroke="'+K+'" stroke-width="3"/><path d="M6 26a18 15 0 0 1 36 0z" fill="#ffc43d" stroke="'+K+'" stroke-width="3" stroke-linejoin="round"/><path d="M30 26h15" stroke="'+K+'" stroke-width="3" stroke-linecap="round"/><g fill="#fff" stroke="'+K+'" stroke-width="1.5"><circle cx="18" cy="34" r="3.4"/><circle cx="30" cy="34" r="3.4"/></g><g fill="'+K+'"><circle cx="18.8" cy="34.6" r="1.5"/><circle cx="30.8" cy="34.6" r="1.5"/></g><path d="M19 42q5 5 10 0" fill="none" stroke="'+K+'" stroke-width="2.5" stroke-linecap="round"/></svg>';
+var FLAG='<svg viewBox="0 0 30 50" aria-hidden="true"><path d="M5 48V4" stroke="'+K+'" stroke-width="3" stroke-linecap="round"/><path d="M5 5h22v16H5z" fill="#fff" stroke="'+K+'" stroke-width="2.5"/><path d="M5 5h7v8H5zM19 5h8v8h-8zM12 13h7v8h-7z" fill="'+K+'"/></svg>';
+
+var NOX='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#ff6b5b" stroke="'+K+'" stroke-width="1.6"/><path d="M7.5 7.5l9 9M16.5 7.5l-9 9" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>';
+function scene(who,hid,mode){
+  var h=byId[hid];
+  return '<div class="scene"><div class="who">'+PERSON[who]+'</div><div class="mid">'+(mode==='ask'?'<span class="qm">?</span>':mode==='no'?NOX:HEART)+'</div><div class="hb" style="--tile:'+h.bg+'">'+ICON[hid]+'</div></div>';
+}
+
+var STAGES=[
+  {name:'Hobby Words',     c:'#2f8fff', n:4},
+  {name:'Who Likes What?', c:'#8b5cf6', n:4},
+  {name:'Do or Does?',     c:'#22b573', n:4},
+  {name:'Yes or No?',      c:'#e8554a', n:4},
+  {name:'Boss Round',      c:'#f59e0b', n:4}
+];
+var TOTAL=20;
+var V={she:'likes',he:'likes',they:'like'};
+var DO={she:'Does',he:'Does',they:'Do'};
+var DOL={she:'does',he:'does',they:'do'};
+var NAMES={she:['Sari','Dina'],he:['Budi','Rafi'],they:['Sari and Budi','Dina and Rafi']};
+
+/* ---------- question makers ---------- */
+function mkPic2Word(h,st){
+  var others=pick(HOB.filter(function(x){return x.id!==h.id;}),3);
+  return {stage:st,type:'pic2word',t:25,label:'What hobby is this?',hobby:h.id,
+    options:shuffle([h].concat(others)).map(function(x){return x.word;}),answer:h.word,
+    qtext:'What hobby is this? (picture)',say:h.word,tip:'This hobby is called <b>'+h.word+'</b>.'};
+}
+function mkWord2Pic(h,st){
+  var others=pick(HOB.filter(function(x){return x.id!==h.id;}),3);
+  return {stage:st,type:'word2pic',t:25,label:'Tap the right picture.',hobby:h.id,
+    options:shuffle([h].concat(others)).map(function(x){return x.id;}),answer:h.id,
+    qtext:'Find the picture: '+h.word,say:h.word,tip:'<b>'+h.word+'</b> is a hobby.'};
+}
+function mkGap(who,h,st){
+  var text=cap(who)+' ___ '+h.word+'.';
+  return {stage:st,type:'gap',t:25,label:'Choose the right word.',who:who,hobby:h.id,mode:'like',text:text,
+    options:shuffle(['like','likes']),answer:V[who],qtext:text,
+    say:cap(who)+' '+V[who]+' '+h.word+'.',tip:'He / She → <b>likes</b>. They → <b>like</b>.'};
+}
+function mkSentence(who,h,st){
+  var P=cap(who), good=P+' '+V[who]+' '+h.word+'.';
+  var bad1=P+' '+(V[who]==='likes'?'like':'likes')+' '+h.word+'.';
+  var bad2=who==='they'?'He like '+h.word+'.':'They likes '+h.word+'.';
+  return {stage:st,type:'sentence',t:30,label:'Which sentence is correct?',who:who,hobby:h.id,mode:'like',
+    options:shuffle([good,bad1,bad2]),answer:good,qtext:'Which sentence is correct? ('+who+')',say:good,
+    tip:'He / She → <b>likes</b>. They → <b>like</b>.'};
+}
+function mkDo(who,h,st){
+  var text='___ '+who+' like '+h.word+'?';
+  return {stage:st,type:'gap',t:25,label:'Do or does?',who:who,hobby:h.id,mode:'ask',text:text,
+    options:shuffle(['Do','Does']),answer:DO[who],qtext:text,
+    say:DO[who]+' '+who+' like '+h.word+'?',tip:'<b>Does</b> → he / she. <b>Do</b> → they.'};
+}
+function mkShort(who,h,st){
+  var text=DO[who]+' '+who+' like '+h.word+'? Yes, '+who+' ___.';
+  return {stage:st,type:'gap',t:25,label:'Finish the answer.',who:who,hobby:h.id,mode:'like',text:text,
+    options:shuffle(['do','does']),answer:DOL[who],qtext:text,
+    say:'Yes, '+who+' '+DOL[who]+'.',tip:'Yes, he / she <b>does</b>. Yes, they <b>do</b>.'};
+}
+function mkName(who,h,st){
+  var nm=pick(NAMES[who])[0];
+  var text=nm+' ___ '+h.word+'.';
+  return {stage:st,type:'gap',t:25,label:'Choose the right word.',who:who,hobby:h.id,mode:'like',text:text,
+    options:shuffle(['like','likes']),answer:V[who],qtext:text,say:nm+' '+V[who]+' '+h.word+'.',
+    tip:who==='they'?'<b>'+nm+'</b> = they → <b>like</b>.':'<b>'+nm+'</b> = '+who+' → <b>likes</b>.'};
+}
+function mkAfterDo(who,h,st){
+  var text=DO[who]+' '+who+' ___ '+h.word+'?';
+  return {stage:st,type:'gap',t:25,label:'Choose the right word.',who:who,hobby:h.id,mode:'ask',text:text,
+    options:shuffle(['like','likes']),answer:'like',qtext:text,
+    say:DO[who]+' '+who+' like '+h.word+'?',tip:'After <b>do / does</b>, we use <b>like</b>.'};
+}
+var NEG={she:"doesn't",he:"doesn't",they:"don't"};
+var SPELL={cooking:'cooking',reading:'reading',drawing:'drawing',painting:'painting',games:'games',puzzles:'puzzles'};
+function mkTF(h,st){
+  var ok=Math.random()<.5, other=pick(HOB.filter(function(x){return x.id!==h.id;}))[0], claim=ok?h.word:other.word;
+  return {stage:st,type:'tf',t:20,label:'True or false?',hobby:h.id,claim:claim,options:['True','False'],answer:ok?'True':'False',
+    qtext:'True or false: This is '+claim+'. (picture: '+h.word+')',say:'This is '+h.word+'.',tip:'The picture shows <b>'+h.word+'</b>.'};
+}
+function mkSpell(h,st){
+  var w=SPELL[h.id], letters=w.split(''), tiles=shuffle(letters), g=0;
+  while(tiles.join('')===w&&g++<10) tiles=shuffle(letters);
+  return {stage:st,type:'build',join:'',fig:true,t:50,label:'Spell the hobby word.',hobby:h.id,tiles:tiles,answer:w,
+    qtext:'Spell the hobby word (picture: '+h.word+')',say:w,tip:'It is spelled <b>'+w.split('').join(' - ')+'</b>.'};
+}
+function mkYesNo(who,hA,hB,st,t){
+  var same=hA.id===hB.id, d=DOL[who], n=NEG[who];
+  var good=same?'Yes, '+who+' '+d+'.':'No, '+who+' '+n+'.';
+  var wrongD=who==='they'?'does':'do', wrongN=who==='they'?"doesn't":"don't";
+  var opts=['Yes, '+who+' '+d+'.','No, '+who+' '+n+'.','Yes, '+who+' '+wrongD+'.','No, '+who+' '+wrongN+'.'];
+  var q=DO[who]+' '+who+' like '+hB.word+'?';
+  return {stage:st,type:'sentence',cols2:true,t:t||20,label:'Look at the picture. Answer the question.',who:who,hobby:hA.id,mode:'like',
+    text:q,options:shuffle(opts),answer:good,qtext:q+' (picture: '+hA.word+')',say:good,
+    tip:(same?'The picture shows <b>'+hA.word+'</b>, so say <b>yes</b>. ':'The picture shows <b>'+hA.word+'</b>, not '+hB.word+'. So say <b>no</b>. ')+'He / She → <b>does</b> / <b>doesn\'t</b>. They → <b>do</b> / <b>don\'t</b>.'};
+}
+function mkNeg(who,h,st){
+  var text=cap(who)+' ___ like '+h.word+'.';
+  return {stage:st,type:'gap',t:20,label:'Choose the right word.',who:who,hobby:h.id,mode:'no',text:text,
+    options:shuffle(["doesn't","don't"]),answer:NEG[who],qtext:text,say:cap(who)+' '+NEG[who]+' like '+h.word+'.',
+    tip:'He / She → <b>doesn\'t</b>. They → <b>don\'t</b>. Then we use <b>like</b>.'};
+}
+function mkBuild(who,h,st,kind){
+  kind=kind||pick(['s','q','n'])[0];
+  var sent=kind==='q'?DO[who]+' '+who+' like '+h.word+'?':kind==='n'?cap(who)+' '+NEG[who]+' like '+h.word+'.':cap(who)+' '+V[who]+' '+h.word+'.';
+  var words=sent.split(' '), tiles=shuffle(words), g=0;
+  while(tiles.join(' ')===sent&&g++<10) tiles=shuffle(words);
+  return {stage:st,type:'build',t:50,label:'Tap the words to make a sentence.',who:who,hobby:h.id,
+    mode:kind==='q'?'ask':kind==='n'?'no':'like',tiles:tiles,answer:sent,qtext:'Make a sentence: '+sent,say:sent,
+    tip:kind==='q'?'<b>Do / Does</b> + who + <b>like</b> + hobby?':kind==='n'?'Who + <b>doesn\'t / don\'t</b> + <b>like</b> + hobby.':'Who + <b>likes / like</b> + hobby.'};
+}
+function buildQuestions(){
+  var qs=[], F=['she','he','they'];
+  var hs=pick(HOB,4);
+  qs.push(mkPic2Word(hs[0],0));qs.push(mkWord2Pic(hs[1],0));qs.push(mkTF(hs[2],0));qs.push(mkSpell(hs[3],0));
+  var w=shuffle(F), h2=pick(HOB,4);
+  qs.push(mkGap(w[0],h2[0],1));qs.push(mkGap(w[1],h2[1],1));qs.push(mkSentence(w[2],h2[2],1));qs.push(mkName(pick(F)[0],h2[3],1));
+  var w3=shuffle(F), h3=pick(HOB,4);
+  qs.push(mkDo(w3[0],h3[0],2));qs.push(mkDo(w3[1],h3[1],2));qs.push(mkShort(w3[2],h3[2],2));qs.push(mkAfterDo(pick(F)[0],h3[3],2));
+  var w4=shuffle(F), h4=pick(HOB,4);
+  qs=qs.concat(shuffle([
+    mkYesNo(w4[0],h4[0],h4[0],3), mkYesNo(w4[1],h4[1],h4[2],3),
+    mkNeg(w4[2],h4[3],3), mkNeg(pick(F)[0],h4[0],3)
+  ]));
+  var w5=shuffle(F), h5=pick(HOB,4), kinds=shuffle(['s','q','n']);
+  qs.push(mkBuild(w5[0],h5[0],4,kinds[0]));
+  qs.push(Math.random()<.5?mkName(w5[1],h5[1],4):mkAfterDo(w5[1],h5[1],4));
+  qs.push(mkYesNo(w5[2],h5[2],h5[3],4,18));
+  qs.push(mkBuild(pick(F)[0],h5[3],4,kinds[1]));
+  return qs;
+}
+
+/* ---------- sound + speech ---------- */
+var AC=null, muted=false;
+function ac(){try{if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C();}if(AC&&AC.state==='suspended')AC.resume();}catch(e){}return AC;}
+function tone(f,d,type,v,delay){
+  var c=ac(); if(!c||muted) return;
+  try{
+    var o=c.createOscillator(),g=c.createGain(),t=c.currentTime+(delay||0);
+    o.type=type||'sine';o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v||.1,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.05);
+  }catch(e){}
+}
+var sfx={
+  tap:function(){tone(520,.07,'triangle',.08);},
+  go:function(){tone(440,.1,'square',.05);tone(660,.14,'square',.05,.1);},
+  good:function(){tone(660,.12,'triangle',.14);tone(880,.2,'triangle',.14,.1);},
+  bad:function(){tone(220,.22,'sawtooth',.06);tone(165,.3,'sawtooth',.06,.12);},
+  win:function(){[523,659,784,1047].forEach(function(f,i){tone(f,.25,'triangle',.14,i*.13);});}
+};
+function say(t){
+  if(muted) return;
+  try{var s=window.speechSynthesis;if(!s)return;s.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.8;u.pitch=1.05;s.speak(u);}catch(e){}
+}
+function confetti(n){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var box=$('#confetti'), cols=['#ff6b5b','#ffc43d','#2f8fff','#22b573','#8b5cf6'];
+  for(var i=0;i<(n||60);i++){
+    var s=document.createElement('i');
+    s.style.cssText='left:'+rnd(100)+'%;background:'+cols[rnd(5)]+';animation-delay:'+(Math.random()*.7)+'s;animation-duration:'+(2.2+Math.random()*1.6)+'s;transform:rotate('+rnd(360)+'deg)';
+    box.appendChild(s);
+  }
+  setTimeout(function(){box.innerHTML='';},4600);
+}
+
+/* ---------- storage ---------- */
+var LS_TOP='fun-hobbies-top', LS_NAME='fun-hobbies-name';
+function loadTop(){try{return JSON.parse(localStorage.getItem(LS_TOP)||'[]');}catch(e){return [];}}
+function saveTop(rec){
+  var a=loadTop();a.push(rec);a.sort(function(x,y){return y.score-x.score;});a=a.slice(0,8);
+  try{localStorage.setItem(LS_TOP,JSON.stringify(a));}catch(e){}
+  return a;
+}
+function topHTML(list,me){
+  return '<h3>Top students</h3><ol class="toplist">'+list.slice(0,5).map(function(r){
+    return '<li class="'+(me&&r.ts===me?'me':'')+'"><span class="nm">'+esc(r.name)+'</span><span class="sc">'+r.score+' pts</span></li>';
+  }).join('')+'</ol>';
+}
+
+/* ---------- screens ---------- */
+var SCREENS=['home','learn','howto','game','result'];
+function show(id){
+  SCREENS.forEach(function(s){$('#'+s).hidden=(s!==id);});
+  window.scrollTo(0,0);
+  if(id==='home') refreshHome();
+}
+function refreshHome(){
+  var t=loadTop(), box=$('#homeTop');
+  if(t.length){box.hidden=false;box.innerHTML=topHTML(t);}else{box.hidden=true;}
+}
+
+/* ---------- state ---------- */
+var S={name:'',q:[],i:0,score:0,correct:0,streak:0,log:[],stageOk:[0,0,0,0],locked:true,run:false,left:0,raf:0,b:null};
+
+function setHud(){
+  var q=S.q[S.i], st=STAGES[q.stage];
+  var chip=$('#stageChip');chip.textContent='Stage '+(q.stage+1)+' · '+st.name;chip.style.background=st.c;
+  $('#qNum').textContent=(S.i+1)+' / '+TOTAL;
+  $('#score').textContent=S.score;
+}
+function buildTrack(){
+  var t=$('#track');
+  var acc=0, parts=STAGES.map(function(s){var a=acc/TOTAL*100;acc+=s.n;return s.c+' '+a+'% '+(acc/TOTAL*100)+'%';});
+  var g='linear-gradient(90deg,'+parts.join(',')+')';
+  var h='<div class="road" style="background:'+g+'"></div>';
+  for(var k=1;k<=TOTAL;k++) h+='<span class="node" data-n="'+k+'" style="left:'+((k-.5)*100/TOTAL)+'%"></span>';
+  h+='<div class="flag">'+FLAG+'</div><div class="runner" id="runner"><div class="rin" id="rin">'+PIP+'</div></div>';
+  t.innerHTML=h;
+}
+function markCur(){
+  var nodes=document.querySelectorAll('.node');
+  nodes.forEach(function(n){n.classList.toggle('cur',+n.dataset.n===S.i+1);});
+}
+function moveRunner(k,ok){
+  var r=$('#runner'), rin=$('#rin');
+  r.style.left=(k>=TOTAL?96.5:(k-.5)*100/TOTAL)+'%';
+  rin.classList.remove('hop','stumble');void rin.offsetWidth;
+  rin.classList.add(ok?'hop':'stumble');
+}
+
+/* ---------- game flow ---------- */
+function startGame(){
+  ac();
+  var nm=$('#name').value.trim();
+  S.name=nm||'Student';
+  try{localStorage.setItem(LS_NAME,nm);}catch(e){}
+  S.q=buildQuestions();S.i=0;S.score=0;S.correct=0;S.streak=0;S.log=[];S.stageOk=STAGES.map(function(){return 0;});
+  show('game');buildTrack();
+  $('#score').textContent='0';
+  sfx.go();
+  showIntro(0);
+}
+function showIntro(si){
+  S.run=false;cancelAnimationFrame(S.raf);S.locked=true;
+  var st=STAGES[si], c=st.c, body='';
+  if(si===0){
+    body='<p>Look at the pictures. Pick the right hobby word.</p><div class="mini">'+HOB.map(function(h){return '<div style="--tile:'+h.bg+'">'+ICON[h.id]+h.word+'</div>';}).join('')+'</div>';
+  }else if(si===1){
+    body='<div class="ex"><span>She <mark>likes</mark> cooking.</span><span>He <mark>likes</mark> drawing.</span><span>They <mark>like</mark> painting.</span></div><p>He / She → likes · They → like</p>';
+  }else if(si===2){
+    body='<div class="ex"><span><mark>Does</mark> she like painting?</span><span>Yes, she <mark>does</mark>.</span><span><mark>Do</mark> they like puzzles?</span><span>Yes, they <mark>do</mark>.</span></div>';
+  }else if(si===3){
+    body='<div class="ex"><span><mark>Does</mark> he like painting? <mark>No</mark>, he <mark>doesn\'t</mark>.</span><span>They <mark>don\'t</mark> like cooking.</span></div><p>Look at the picture first. He / She → doesn\'t · They → don\'t</p>';
+  }else{
+    body='<p>Boss round! Longer sentences and less time. Use everything you learned.</p>';
+  }
+  $('#qbox').hidden=true;
+  var box=$('#intro');box.hidden=false;
+  box.innerHTML='<span class="chip" style="background:'+c+'">Stage '+(si+1)+' of '+STAGES.length+'</span><h2>'+st.name+'</h2>'+body+'<button class="btn sun big" id="btnGo" style="max-width:320px">Go!</button>';
+  var chip=$('#stageChip');chip.textContent='Stage '+(si+1)+' · '+st.name;chip.style.background=c;
+  $('#qNum').textContent=(S.i+1)+' / '+TOTAL;
+  markCur();
+  $('#btnGo').focus({preventScroll:true});
+}
+function renderQ(){
+  var q=S.q[S.i];
+  S.locked=false;
+  $('#intro').hidden=true;$('#qbox').hidden=false;$('#fb').hidden=true;
+  setHud();markCur();
+  var h=byId[q.hobby], html='<p class="qlabel">'+q.label+'</p>';
+  if(q.type==='pic2word'){
+    html+='<div class="figure" style="--tile:'+h.bg+'">'+ICON[q.hobby]+'</div><div class="opts" id="opts">'+
+      q.options.map(function(o,i){return '<button class="opt" data-v="'+o+'"><b>'+(i+1)+'</b>'+o+'</button>';}).join('')+'</div>';
+  }else if(q.type==='word2pic'){
+    html+='<div class="bigword"><span>'+h.word+'</span><button class="say" data-say="'+h.word+'" aria-label="Listen">'+SPK+'</button></div><div class="opts pics" id="opts">'+
+      q.options.map(function(id){return '<button class="opt" data-v="'+id+'" style="--tile:'+byId[id].bg+'" aria-label="Picture choice">'+ICON[id]+'</button>';}).join('')+'</div>';
+  }else if(q.type==='tf'){
+    html+='<div class="figure" style="--tile:'+h.bg+'">'+ICON[q.hobby]+'</div><p class="sentence">This is <mark>'+q.claim+'</mark>.</p><div class="opts" id="opts">'+
+      q.options.map(function(o,i){return '<button class="opt" data-v="'+o+'"><b>'+(i+1)+'</b>'+o+'</button>';}).join('')+'</div>';
+  }else if(q.type==='gap'){
+    html+=scene(q.who,q.hobby,q.mode)+'<p class="sentence">'+esc(q.text).replace('___','<span class="blank" id="blank">?</span>')+'</p><div class="opts" id="opts">'+
+      q.options.map(function(o,i){return '<button class="opt" data-v="'+o+'"><b>'+(i+1)+'</b>'+o+'</button>';}).join('')+'</div>';
+  }else if(q.type==='sentence'){
+    html+=scene(q.who,q.hobby,q.mode)+(q.text?'<p class="sentence">'+esc(q.text)+'</p>':'')+'<div class="opts'+(q.cols2?'':' one')+'" id="opts">'+
+      q.options.map(function(o,i){return '<button class="opt" data-v="'+esc(o)+'"><b>'+(i+1)+'</b>'+esc(o)+'</button>';}).join('')+'</div>';
+  }else{
+    html+=(q.fig?'<div class="figure" style="--tile:'+h.bg+'">'+ICON[q.hobby]+'</div>':scene(q.who,q.hobby,q.mode))+'<div class="slots" id="slots"></div><div class="bank" id="bank"></div><button class="btn leaf big" id="check" disabled>Check</button>';
+  }
+  $('#qmain').innerHTML=html;
+  if(q.type==='build'){
+    S.b={placed:[],bank:q.tiles.map(function(w,i){return {w:w,id:i};})};
+    drawBuild();
+  }
+  startTimer(q.t);
+}
+function drawBuild(){
+  var q=S.q[S.i], b=S.b, n=q.tiles.length, s='';
+  b.placed.forEach(function(t){s+='<button class="tile placed" data-id="'+t.id+'">'+esc(t.w)+'</button>';});
+  for(var i=b.placed.length;i<n;i++) s+='<span class="ph"></span>';
+  $('#slots').innerHTML=s;
+  $('#bank').innerHTML=b.bank.map(function(t){return '<button class="tile" data-id="'+t.id+'">'+esc(t.w)+'</button>';}).join('');
+  $('#check').disabled=b.bank.length>0;
+}
+
+/* timer */
+function startTimer(t){
+  S.left=t;S.tmax=t;S.last=performance.now();S.run=true;
+  $('#tbar').classList.remove('low');
+  tick();
+}
+function tick(){
+  if(!S.run) return;
+  var now=performance.now(), dt=Math.min((now-S.last)/1000,.25);S.last=now;
+  if(!document.hidden) S.left-=dt;
+  if(S.left<=0){S.left=0;paint();resolve(null,true);return;}
+  paint();
+  S.raf=requestAnimationFrame(tick);
+}
+function paint(){
+  $('#tfill').style.transform='scaleX('+(S.left/S.tmax)+')';
+  $('#tsec').textContent=Math.ceil(S.left);
+  $('#tbar').classList.toggle('low',S.left<=5);
+}
+
+function disp(v,q){
+  if(v===null||v===undefined) return '(no answer)';
+  if(q.type==='word2pic') return byId[v]?byId[v].word:v;
+  return v;
+}
+function resolve(val,timedOut){
+  if(S.locked) return;
+  S.locked=true;S.run=false;cancelAnimationFrame(S.raf);
+  var q=S.q[S.i], ok=!timedOut&&val===q.answer, pts=0;
+  if(ok){
+    S.streak++;pts=10+Math.round(5*S.left/q.t)+(S.streak>=3?3:0);
+    S.score+=pts;S.correct++;S.stageOk[q.stage]++;
+  }else S.streak=0;
+  S.log.push({text:q.qtext,yours:timedOut?'(time is up)':disp(val,q),correct:disp(q.answer,q),ok:ok,stage:q.stage});
+  /* reveal */
+  var opts=document.querySelectorAll('#opts .opt');
+  opts.forEach(function(o){
+    o.disabled=true;
+    if(o.dataset.v===String(q.answer)) o.classList.add('correct');
+    else if(!timedOut&&o.dataset.v===String(val)) o.classList.add('wrong');
+    else o.classList.add('dim');
+  });
+  var bl=$('#blank');
+  if(bl){bl.textContent=q.answer;bl.classList.add(ok?'ok':'bad');}
+  if(q.type==='build'){
+    var sl=$('#slots');sl.classList.add(ok?'ok':'bad');
+    document.querySelectorAll('#slots .tile,#bank .tile').forEach(function(t){t.disabled=true;});
+    $('#check').hidden=true;
+  }
+  /* track + hud */
+  var node=document.querySelector('.node[data-n="'+(S.i+1)+'"]');
+  node.classList.remove('cur');node.classList.add(ok?'got':'miss');
+  moveRunner(S.i+1,ok);
+  $('#score').textContent=S.score;
+  if(ok){var sb=$('#scoreBox');sb.classList.remove('pop');void sb.offsetWidth;sb.classList.add('pop');sfx.good();}else sfx.bad();
+  /* feedback */
+  var last=S.i>=TOTAL-1;
+  var title=ok?pick(['Great job!','Awesome!','Super!','You got it!'])[0]:(timedOut?"Time's up!":'Not quite!');
+  var fb=$('#fb');fb.hidden=false;fb.className='fb'+(ok?'':' no');
+  fb.innerHTML='<div class="fbhead"><span class="fbicon">'+(ok?TICK:CROSS)+'</span><span>'+title+'</span>'+(ok?'<span class="pts">+'+pts+'</span>':'')+'</div>'+
+    '<p class="fbtip">'+(ok?'':'Correct answer: <b>'+esc(q.say)+'</b><br>')+q.tip+'</p>'+
+    '<div class="fbbtns"><button class="btn ghost small" id="fbSay">Listen</button><button class="btn leaf" id="fbNext">'+(last?'See results':'Next')+'</button></div>';
+  $('#fbNext').focus({preventScroll:true});
+  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function next(){
+  if(S.i>=TOTAL-1){finish();return;}
+  var prev=S.q[S.i].stage;S.i++;
+  window.scrollTo({top:0,behavior:'smooth'});
+  sfx.tap();
+  if(S.q[S.i].stage!==prev) showIntro(S.q[S.i].stage); else renderQ();
+}
+function finish(){
+  var stars=S.correct>=16?3:S.correct>=10?2:1;
+  var titles={3:'Hobby Champion!',2:'Super job!',1:'Good try!'};
+  var ts=Date.now();
+  var top=saveTop({name:S.name,score:S.score,correct:S.correct,ts:ts});
+  var starSvg=[1,2,3].map(function(n){
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+STAR+'" fill="'+(n<=stars?'#ffc43d':'#e4ebf7')+'" stroke="'+K+'" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+  }).join('');
+  var sbs=STAGES.map(function(s,i){return '<div class="sb" style="--c:'+s.c+'"><b>'+S.stageOk[i]+'/'+s.n+'</b><span>'+s.name+'</span></div>';}).join('');
+  var rev=S.log.map(function(l,i){
+    return '<li class="'+(l.ok?'ok':'no')+'"><b>'+(i+1)+'.</b> '+esc(l.text)+'<small>'+(l.ok?'Your answer: <em>'+esc(l.yours)+'</em>':'Your answer: '+esc(l.yours)+' · Correct: <em>'+esc(l.correct)+'</em>')+'</small></li>';
+  }).join('');
+  var msg=S.correct===TOTAL?'Perfect! Every star is yours.':S.correct>=16?'Almost perfect, '+esc(S.name)+'!':S.correct>=10?'Nice work, '+esc(S.name)+'! Practice a little more.':'Keep going, '+esc(S.name)+'. Learn the words and try again!';
+  $('#resCard').innerHTML='<div class="stars">'+starSvg+'</div><h2>'+titles[stars]+'</h2><p>'+msg+'</p>'+
+    '<div class="bigscore">'+S.score+'<small>points · '+S.correct+' of '+TOTAL+' correct</small></div>'+
+    '<div class="sbs">'+sbs+'</div>'+
+    '<div class="row" style="width:100%"><button class="btn sun" id="rAgain">Play again</button><button class="btn ghost" id="rLearn">Learn the words</button><button class="btn ghost" id="rHome">Main menu</button></div>'+
+    '<details><summary>Answer review</summary><ul class="rev">'+rev+'</ul></details>'+
+    '<div class="top">'+topHTML(top,ts)+'</div>';
+  show('result');
+  sfx.win();confetti(stars===3?90:50);
+}
+
+/* ---------- learn page ---------- */
+function buildLearn(){
+  $('#learnWords').innerHTML=HOB.map(function(h){
+    return '<button class="hcard" style="--tile:'+h.bg+'" data-say="'+h.word+'"><span class="ic">'+ICON[h.id]+'</span><b>'+h.word+SPK+'</b></button>';
+  }).join('');
+  var likes=[['she','cooking'],['he','drawing'],['they','puzzles']];
+  $('#learnLikes').innerHTML=likes.map(function(x){
+    var h=byId[x[1]];
+    return '<div class="gcard">'+scene(x[0],x[1],'like')+'<p>'+cap(x[0])+' <mark>'+V[x[0]]+'</mark> '+h.word+'.</p></div>';
+  }).join('');
+  var dos=[['she','painting'],['they','reading']];
+  $('#learnDo').innerHTML=dos.map(function(x){
+    var h=byId[x[1]];
+    return '<div class="gcard">'+scene(x[0],x[1],'ask')+'<p><mark>'+DO[x[0]]+'</mark> '+x[0]+' like '+h.word+'?</p><p>Yes, '+x[0]+' <mark>'+DOL[x[0]]+'</mark>.</p></div>';
+  }).join('');
+  var nos=[['he','painting'],['they','cooking'],['she','puzzles']];
+  $('#learnNo').innerHTML=nos.map(function(x){
+    var h=byId[x[1]];
+    return '<div class="gcard">'+scene(x[0],x[1],'no')+'<p>'+cap(x[0])+' <mark>'+NEG[x[0]]+'</mark> like '+h.word+'.</p></div>';
+  }).join('');
+  $('#homeTiles').innerHTML=HOB.map(function(h){
+    return '<button class="tile-h" style="--tile:'+h.bg+'" data-say="'+h.word+'"><span class="ic">'+ICON[h.id]+'</span><span>'+h.word+'</span></button>';
+  }).join('');
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',function(e){
+  var t=e.target;
+  var sayEl=t.closest('[data-say]');
+  if(sayEl){ac();say(sayEl.dataset.say);sfx.tap();return;}
+  var go=t.closest('[data-go]');
+  if(go){
+    ac();sfx.tap();
+    if(go.dataset.go==='start') startGame(); else show(go.dataset.go);
+    return;
+  }
+  var opt=t.closest('#opts .opt');
+  if(opt&&!S.locked){ac();resolve(opt.dataset.v,false);return;}
+  var tile=t.closest('#slots .tile, #bank .tile');
+  if(tile&&!S.locked&&S.b){
+    var id=+tile.dataset.id, b=S.b, inP=b.placed.findIndex(function(x){return x.id===id;});
+    sfx.tap();
+    if(inP>=0){b.bank.push(b.placed.splice(inP,1)[0]);b.bank.sort(function(x,y){return x.id-y.id;});}
+    else{var j=b.bank.findIndex(function(x){return x.id===id;});if(j>=0)b.placed.push(b.bank.splice(j,1)[0]);}
+    drawBuild();return;
+  }
+  if(t.closest('#check')&&!S.locked&&S.b){
+    ac();resolve(S.b.placed.map(function(x){return x.w;}).join(S.q[S.i].join===undefined?' ':S.q[S.i].join),false);return;
+  }
+  if(t.closest('#fbSay')){say(S.q[S.i].say);return;}
+  if(t.closest('#fbNext')){next();return;}
+  if(t.closest('#btnGo')){sfx.go();renderQ();return;}
+  if(t.closest('#btnStart')){startGame();return;}
+  if(t.closest('#btnLearn')){ac();show('learn');return;}
+  if(t.closest('#btnHow')){ac();show('howto');return;}
+  if(t.closest('#rAgain')){startGame();return;}
+  if(t.closest('#rLearn')){show('learn');return;}
+  if(t.closest('#rHome')){show('home');return;}
+});
+var quitArm=0;
+$('#btnQuit').addEventListener('click',function(){
+  var b=this;
+  if(quitArm){clearTimeout(quitArm);quitArm=0;S.run=false;cancelAnimationFrame(S.raf);b.textContent='✕';show('home');return;}
+  b.textContent='?';quitArm=setTimeout(function(){quitArm=0;b.textContent='✕';},2500);
+});
+$('#btnMute').addEventListener('click',function(){
+  muted=!muted;this.innerHTML=muted?SPK_OFF:SPK;
+  try{if(muted&&window.speechSynthesis)speechSynthesis.cancel();}catch(e){}
+});
+document.addEventListener('keydown',function(e){
+  if(e.target&&e.target.tagName==='INPUT'){if(e.key==='Enter')startGame();return;}
+  if($('#game').hidden) return;
+  if(!S.locked&&!$('#qbox').hidden&&/^[1-4]$/.test(e.key)){
+    var o=document.querySelectorAll('#opts .opt')[+e.key-1];if(o)o.click();
+  }
+});
+$('#btnMute').innerHTML=SPK;
+
+buildLearn();
+try{$('#name').value=localStorage.getItem(LS_NAME)||'';}catch(e){}
+refreshHome();
+})();
+</script>
+
+</body></html>
